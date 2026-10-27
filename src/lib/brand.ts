@@ -59,5 +59,53 @@ export const AREAS: Area[] = [
   },
 ];
 
+export type Etapa = { n: string; rotulo: string; titulo: string; texto: string; quem: string; img: string };
+
+// Primeira consulta descrita pela Dra. Suzana na reunião de 27/10/2026.
+export const ETAPAS: Etapa[] = [
+  {
+    n: '01',
+    rotulo: 'Chegada',
+    titulo: 'Recepção',
+    texto: 'Chegada sem pressa. A equipe de atendimento recebe você na sala 706 e acompanha os primeiros passos.',
+    quem: 'Equipe de atendimento',
+    img: '/img/dia-recepcao.webp',
+  },
+  {
+    n: '02',
+    rotulo: 'Avaliação',
+    titulo: 'Avaliação do corpo',
+    texto: 'Na sala de enfermagem: avaliação física, bioimpedância, fotos e scanner corporal. Dados do seu corpo que chegam à consulta junto com a sua história.',
+    quem: 'Enfermagem',
+    img: '/img/dia-avaliacao.webp',
+  },
+  {
+    n: '03',
+    rotulo: 'Consulta',
+    titulo: 'Consulta com a Dra. Suzana',
+    texto: 'Uma conversa a partir das suas queixas e necessidades, lidas junto com a avaliação. É aqui que as prioridades são definidas com você.',
+    quem: 'Dra. Suzana Lessa',
+    img: '/img/dia-consulta.webp',
+  },
+  {
+    n: '04',
+    rotulo: 'Cuidados',
+    titulo: 'Procedimentos e nutrição',
+    texto: 'Quando indicado, procedimento injetável ou estético na sala de enfermagem. Se fizer sentido, atendimento com a nutricionista da equipe no mesmo dia.',
+    quem: 'Enfermagem e nutricionista',
+    img: '/img/dia-cuidados.webp',
+  },
+  {
+    n: '05',
+    rotulo: 'Retorno',
+    titulo: 'Retorno marcado',
+    texto: 'Antes de sair, o próximo encontro já fica agendado, para que o cuidado tenha continuidade.',
+    quem: 'Equipe de atendimento',
+    img: '/img/dia-retorno.webp',
+  },
+];
+
+export const WAZE = `https://waze.com/ul?q=${encodeURIComponent('Av. Pref. Silvio Picanço, 463, Charitas, Niterói')}&navigate=yes`;
+
 /** A cor do dia: manhã clara no topo, poente quente no fim da página. */
 export const COR_DO_DIA = ['#FFF9F1', '#FFF7EC', '#F8EFE1', '#F6EADB', '#F0DFCB', '#EAD5BD'];

@@ -7,6 +7,7 @@ import CorDoDia from '@/components/CorDoDia';
 import CursorLuz from '@/components/CursorLuz';
 import AnelNavegacao from '@/components/AnelNavegacao';
 import Cabecalho from '@/components/Cabecalho';
+import AcaoFixa from '@/components/AcaoFixa';
 
 // Mories: licença DEMO no arquivo do projeto. Confirmar licença comercial antes de publicar.
 const mories = localFont({
@@ -44,6 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Cabecalho />
         {children}
         <AnelNavegacao />
+        <AcaoFixa />
         <CursorLuz />
         <div className="grao" aria-hidden />
       </body>

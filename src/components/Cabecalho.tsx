@@ -10,6 +10,8 @@ const LINKS = [
   ['Início', '#abertura'],
   ['A Nuhria', '#sistemas'],
   ['Áreas de atuação', '#areas'],
+  ['Primeira consulta', '#primeira-consulta'],
+  ['O lugar', '#lugar'],
   ['Contato', '#contato'],
 ] as const;
 
