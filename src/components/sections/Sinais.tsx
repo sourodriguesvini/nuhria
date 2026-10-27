@@ -109,23 +109,36 @@ export default function Sinais() {
         const alvo = ringXY(dot, cx, cy, R, giro);
         const x = lerp(bx, alvo.x, gi);
         const y = lerp(by, alvo.y, gi);
-        let r = lerp(s.tam, alvo.r, gi);
+        const r = lerp(s.tam, alvo.r, gi);
         const k = prioSet.get(i);
-        if (k !== undefined) r *= 1 + 1.25 * prio;
         pos[i] = { x, y, r };
         ctx.beginPath();
         ctx.arc(x, y, Math.max(r, 0.6), 0, Math.PI * 2);
-        if (k !== undefined && prio > 0.01) {
-          ctx.shadowColor = `rgba(166,127,96,${0.55 * prio})`;
-          ctx.shadowBlur = 22 * prio;
-          ctx.fillStyle = `rgba(${Math.round(lerp(34, 166, prio))},${Math.round(lerp(34, 127, prio))},${Math.round(lerp(34, 96, prio))},${lerp(0.82, 1, prio)})`;
-        } else {
-          ctx.shadowBlur = 0;
-          ctx.fillStyle = `rgba(34,34,34,${lerp(s.alfa, 0.82, gi)})`;
-        }
+        // prioridade: o próprio ponto da logo só muda para a cor da marca (sem crescer, sem brilho)
+        ctx.fillStyle =
+          k !== undefined && prio > 0.01
+            ? `rgba(${Math.round(lerp(34, 166, prio))},${Math.round(lerp(34, 127, prio))},${Math.round(lerp(34, 96, prio))},${lerp(0.82, 1, prio)})`
+            : `rgba(34,34,34,${lerp(s.alfa, 0.82, gi)})`;
         ctx.fill();
       });
-      ctx.shadowBlur = 0;
+
+      // fio que aponta de cada prioridade até o seu rótulo
+      if (prio > 0.01 && !movel) {
+        ctx.strokeStyle = `rgba(166,127,96,${0.9 * prio})`;
+        ctx.lineWidth = 1;
+        PRIORIDADES.forEach((pr) => {
+          const a = pos[pr.i];
+          const dx = a.x - cx;
+          const dy = a.y - cy;
+          const len = Math.hypot(dx, dy) || 1;
+          const de = len + a.r + 6;
+          const ate = len + a.r + 6 + 26 * prio;
+          ctx.beginPath();
+          ctx.moveTo(cx + (dx / len) * de, cy + (dy / len) * de);
+          ctx.lineTo(cx + (dx / len) * ate, cy + (dy / len) * ate);
+          ctx.stroke();
+        });
+      }
 
       // fios entre os sinais nomeados, enquanto viajam (sistema, não sintoma)
       const fio = Math.sin(Math.PI * clamp(junta)) * 0.42;
@@ -180,8 +193,8 @@ export default function Sinais() {
         const dx = a.x - cx;
         const dy = a.y - cy;
         const len = Math.hypot(dx, dy) || 1;
-        const ox = cx + (dx / len) * (len + a.r + 18);
-        const oy = cy + (dy / len) * (len + a.r + 18);
+        const ox = cx + (dx / len) * (len + a.r + 38);
+        const oy = cy + (dy / len) * (len + a.r + 38);
         const esquerda = dx < -R * 0.2;
         // no celular não cabe ao lado do anel: vira uma lista acima dele
         el.style.transform = movel

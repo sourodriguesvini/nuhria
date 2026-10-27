@@ -49,7 +49,7 @@ export default function AnelNavegacao() {
       onClick={() => irPara(0)}
       className="group fixed bottom-8 left-8 z-50 hidden items-center gap-3 md:flex"
       aria-label={`Percurso da página: ${secao}. Voltar ao início`}
-      style={{ animation: 'entra 1.4s 2.8s var(--ease-luz) both' }}
+      style={{ animation: 'entra 1.4s 2.8s var(--ease-luz) backwards' }}
     >
       <span className="vidro grid h-[60px] w-[60px] place-items-center rounded-full">
         <svg viewBox="-1.18 -1.18 2.36 2.36" className="h-11 w-11" aria-hidden>

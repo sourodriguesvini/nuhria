@@ -20,9 +20,9 @@ export default function AnelProgresso({ acesos, completo, className = 'h-16 w-16
         );
       })}
       <circle
-        r={r4(CENTER_SIZE * (completo ? 1.15 : 1))}
+        r={r4(CENTER_SIZE)}
         fill={completo ? '#A67F60' : apagado}
-        style={{ transition: 'all 0.8s var(--ease-luz) 0.5s' }}
+        style={{ transition: 'fill 0.8s var(--ease-luz) 0.5s' }}
       />
     </svg>
   );

@@ -43,7 +43,8 @@ export default function Cabecalho() {
         className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-4 py-4 transition-colors duration-700 md:px-8 md:py-5 ${
           escuro ? 'text-sunlit' : 'text-grafite'
         }`}
-        style={{ animation: 'entra 1.4s 2.6s var(--ease-luz) both' }}
+        // "backwards": depois da entrada a animação não fica ativa (senão o cabeçalho isola o vidro dos botões)
+        style={{ animation: 'entra 1.4s 2.6s var(--ease-luz) backwards' }}
       >
         <div className="flex w-[40%] items-center">
           <button
@@ -56,7 +57,10 @@ export default function Cabecalho() {
           </button>
         </div>
         <a href="#abertura" onClick={(e) => (e.preventDefault(), irPara(0))} className="block" aria-label="Nuhria, início">
-          <Logotipo className="h-[17px] w-auto md:h-[22px]" />
+          <Logotipo
+            className="h-[17px] w-auto transition-[filter] duration-700 md:h-[22px]"
+            style={escuro ? { filter: 'drop-shadow(0 1px 10px rgba(28,21,17,0.35))' } : undefined}
+          />
         </a>
         <div className="flex w-[40%] items-center justify-end gap-2.5">
           <a href={waLink()} target="_blank" rel="noopener" className={`botao h-11 gap-2.5 px-4 md:px-5 ${pilula}`}>
