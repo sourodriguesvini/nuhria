@@ -1,0 +1,209 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-sunlit: #fff9f1;
+  --color-ivory: #f8efe1;
+  --color-oat: #e3d2bd;
+  --color-sand: #d7b895;
+  --color-taupe: #a67f60;
+  --color-grafite: #222222;
+  --color-grafite-72: #5e5e5d;
+  --color-tinta: #1c1511;
+  --font-display: var(--font-mories), 'Cormorant', Georgia, serif;
+  --font-sans: var(--font-mont), system-ui, sans-serif;
+  --ease-luz: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+:root {
+  --day: #fff9f1; /* cor do dia, muda com a rolagem */
+  --gutter: clamp(20px, 5.5vw, 80px);
+  color-scheme: light;
+}
+
+html {
+  background: var(--day);
+  color: var(--color-grafite);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+body {
+  font-family: var(--font-sans);
+  background: var(--day);
+  overflow-x: clip;
+}
+::selection {
+  background: var(--color-oat);
+  color: var(--color-grafite);
+}
+
+/* Componentes ficam na camada "components": os utilitários do Tailwind (hidden, h-11…) vencem quando usados junto. */
+@layer components {
+/* ---------- tipografia ---------- */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 0.98;
+}
+.abertura {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  letter-spacing: 0;
+}
+.rotulo {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.corpo {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.65;
+}
+.lead {
+  font-weight: 300;
+  font-size: clamp(17px, 1.45vw, 21px);
+  line-height: 1.6;
+}
+
+/* ---------- vidro (Gelo NUHRIA na web) ---------- */
+.vidro {
+  background: rgba(255, 249, 241, 0.52);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.75),
+    inset -1px -1px 0 rgba(166, 127, 96, 0.12),
+    0 18px 50px -24px rgba(43, 33, 25, 0.35);
+  backdrop-filter: blur(18px) saturate(1.35);
+  -webkit-backdrop-filter: blur(18px) saturate(1.35);
+}
+.vidro-escuro {
+  background: rgba(255, 249, 241, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+}
+
+/* ---------- botões ---------- */
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 52px;
+  padding: 0 26px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  transition:
+    transform 0.5s var(--ease-luz),
+    background-color 0.4s var(--ease-luz),
+    color 0.4s var(--ease-luz),
+    box-shadow 0.5s var(--ease-luz);
+  will-change: transform;
+}
+.botao svg {
+  transition: transform 0.5s var(--ease-luz);
+}
+.botao:hover svg {
+  transform: translateX(4px);
+}
+.botao-escuro {
+  background: var(--color-grafite);
+  color: var(--color-sunlit);
+}
+.botao-escuro:hover {
+  box-shadow: 0 14px 34px -14px rgba(34, 34, 34, 0.6);
+}
+.botao-claro {
+  background: var(--color-sunlit);
+  color: var(--color-grafite);
+}
+.botao-claro:hover {
+  box-shadow: 0 0 0 6px rgba(255, 249, 241, 0.18), 0 14px 40px -12px rgba(255, 236, 205, 0.6);
+}
+.botao-contorno {
+  border: 1px solid rgba(34, 34, 34, 0.24);
+  color: var(--color-grafite);
+}
+.botao-contorno:hover {
+  background: rgba(34, 34, 34, 0.04);
+}
+.botao-contorno-claro {
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  color: var(--color-sunlit);
+}
+.botao-contorno-claro:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+}
+
+/* ---------- grão de filme ---------- */
+.grao {
+  position: fixed;
+  inset: -50%;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.25  0 0 0 0 0.2  0 0 0 0 0.15  0 0 0 1.4 -0.35'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation: grao 0.9s steps(6) infinite;
+}
+@keyframes grao {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-3%, 2%); }
+  40% { transform: translate(2%, -3%); }
+  60% { transform: translate(-2%, -1%); }
+  80% { transform: translate(3%, 3%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ---------- texto revelado pela luz ---------- */
+.revela {
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent calc(var(--l, 50%) - var(--suave, 80px)),
+    #000 var(--l, 50%),
+    #000 var(--r, 50%),
+    transparent calc(var(--r, 50%) + var(--suave, 80px))
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent calc(var(--l, 50%) - var(--suave, 80px)),
+    #000 var(--l, 50%),
+    #000 var(--r, 50%),
+    transparent calc(var(--r, 50%) + var(--suave, 80px))
+  );
+}
+
+/* entrada por varredura de luz (usada em trocas de texto) */
+.varre {
+  -webkit-mask-image: linear-gradient(100deg, #000 40%, rgba(0, 0, 0, 0.15) 50%, transparent 60%);
+  mask-image: linear-gradient(100deg, #000 40%, rgba(0, 0, 0, 0.15) 50%, transparent 60%);
+  -webkit-mask-size: 260% 100%;
+  mask-size: 260% 100%;
+  animation: varre 1.4s var(--ease-luz) both;
+}
+@keyframes varre {
+  from { -webkit-mask-position: 100% 0; mask-position: 100% 0; filter: blur(6px); }
+  to { -webkit-mask-position: 0% 0; mask-position: 0% 0; filter: blur(0); }
+}
+
+@keyframes entra {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* "Reduzir movimento": sem grão animado nem desfoque; as revelações por luz continuam,
+   porque dependem da rolagem de quem lê. */
+@media (prefers-reduced-motion: reduce) {
+  .grao { animation: none; }
+  .varre { animation-duration: 0.01s; }
+}
