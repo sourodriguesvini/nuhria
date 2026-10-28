@@ -130,7 +130,7 @@ export default function Conversa() {
   return (
     <section id="contato" data-secao="Contato" ref={secao} className="px-2 pb-2 md:px-4 md:pb-4">
       <div ref={foto} className="relative overflow-hidden rounded-[20px] md:rounded-[28px]">
-        <img src="/img/janela-mar.webp" alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <img src="/img/janela-mar.webp" alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(105deg, rgba(28,21,17,0.68), rgba(28,21,17,0.3))' }} />
 
         <div className="relative grid min-h-[100svh] items-center gap-12 px-5 py-28 md:grid-cols-[1fr_minmax(0,560px)] md:gap-[6vw] md:px-[var(--gutter)]">
@@ -157,7 +157,7 @@ export default function Conversa() {
             <div className="flex items-center gap-4">
               <AnelProgresso acesos={acesos} completo={passo >= ENVIADO} className="h-[76px] w-[76px] shrink-0" />
               <div>
-                <p className="rotulo text-taupe">{passo >= ENVIADO ? 'Uma volta completa' : 'Sua conversa com a Nuhria'}</p>
+                <p className="rotulo text-taupe-texto">{passo >= ENVIADO ? 'Uma volta completa' : 'Sua conversa com a Nuhria'}</p>
                 <p className="mt-1 text-[13px] text-grafite-72">
                   {passo < CONFIRMA ? `Pergunta ${passo + 1} de ${PERGUNTAS.length}` : passo === CONFIRMA ? 'Tudo certo?' : 'Recebido'}
                 </p>
@@ -171,7 +171,7 @@ export default function Conversa() {
                   <li key={q.id}>
                     <button onClick={() => voltarPara(i)} className="group flex w-full items-baseline justify-between gap-4 py-1.5 text-left">
                       <span className="text-[12px] uppercase tracking-[0.14em] text-grafite/45">{q.rotulo}</span>
-                      <span className="truncate text-[14px] text-grafite group-hover:text-taupe">{resp[q.id] || '—'}</span>
+                      <span className="truncate text-[14px] text-grafite group-hover:text-taupe-texto">{resp[q.id] || '—'}</span>
                     </button>
                   </li>
                 ))}
@@ -207,7 +207,7 @@ export default function Conversa() {
                     className="mt-5 w-full border-b border-grafite/25 bg-transparent pb-3 text-[19px] outline-none placeholder:text-grafite/35 focus:border-taupe"
                   />
                 )}
-                {erro && <p className="mt-3 text-[13px] text-taupe">{erro}</p>}
+                {erro && <p className="mt-3 text-[13px] text-taupe-texto">{erro}</p>}
                 <div className="mt-7 flex items-center gap-3">
                   <button type="submit" className="botao botao-escuro">
                     Continuar <Seta />
@@ -226,9 +226,15 @@ export default function Conversa() {
                 <p className="abertura text-[clamp(21px,2vw,27px)] leading-snug">Tudo certo, {resp.nome.split(' ')[0]}?</p>
                 <label className="mt-6 flex cursor-pointer items-start gap-3 text-[13.5px] leading-relaxed text-grafite-72">
                   <input type="checkbox" checked={aceite} onChange={(e) => setAceite(e.target.checked)} className="mt-1 h-4 w-4 accent-[#A67F60]" />
-                  Concordo que a Nuhria use estes dados apenas para responder ao meu contato, conforme a Política de privacidade.
+                  <span>
+                    Concordo que a Nuhria use estes dados apenas para responder ao meu contato, conforme a{' '}
+                    <a href="/privacidade/" target="_blank" rel="noopener" className="underline decoration-grafite/30 underline-offset-4 hover:text-taupe-texto">
+                      Política de privacidade
+                    </a>
+                    .
+                  </span>
                 </label>
-                {erro && <p className="mt-3 text-[13px] text-taupe">{erro}</p>}
+                {erro && <p className="mt-3 text-[13px] text-taupe-texto">{erro}</p>}
                 <button onClick={enviar} className="botao botao-escuro mt-7">
                   Enviar <Seta />
                 </button>

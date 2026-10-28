@@ -1,5 +1,8 @@
 // Dados reais da Nuhria (reunião de 27/10/2026 e Dossiê). Não inventar telefone, e-mail ou preço.
 
+// Domínio comprado no Registro.br; confirmar o endereço final antes de publicar.
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://clinicanuhria.com.br';
+
 export const WHATSAPP = '5521996062680';
 export const WHATSAPP_LEGIVEL = '(21) 99606-2680';
 export const waLink = (msg = 'Olá! Vim pelo site da Nuhria e gostaria de agendar uma conversa.') =>
@@ -59,7 +62,7 @@ export const AREAS: Area[] = [
   },
 ];
 
-export type Etapa = { n: string; rotulo: string; titulo: string; texto: string; quem: string; img: string };
+export type Etapa = { n: string; rotulo: string; titulo: string; texto: string; quem: string; img: string; alt: string };
 
 // Primeira consulta descrita pela Dra. Suzana na reunião de 27/10/2026.
 export const ETAPAS: Etapa[] = [
@@ -70,6 +73,7 @@ export const ETAPAS: Etapa[] = [
     texto: 'Chegada sem pressa. A equipe de atendimento recebe você na sala 706 e acompanha os primeiros passos.',
     quem: 'Equipe de atendimento',
     img: '/img/dia-recepcao.webp',
+    alt: 'Recepção clara com balcão de madeira e a luz do fim da tarde entrando pela janela',
   },
   {
     n: '02',
@@ -78,6 +82,7 @@ export const ETAPAS: Etapa[] = [
     texto: 'Na sala de enfermagem: avaliação física, bioimpedância, fotos e scanner corporal. Dados do seu corpo que chegam à consulta junto com a sua história.',
     quem: 'Enfermagem',
     img: '/img/dia-avaliacao.webp',
+    alt: 'Pessoa sentada de olhos fechados, com a luz pousando no rosto',
   },
   {
     n: '03',
@@ -86,6 +91,7 @@ export const ETAPAS: Etapa[] = [
     texto: 'Uma conversa a partir das suas queixas e necessidades, lidas junto com a avaliação. É aqui que as prioridades são definidas com você.',
     quem: 'Dra. Suzana Lessa',
     img: '/img/dia-consulta.webp',
+    alt: 'Duas pessoas conversando à mesa, junto à janela',
   },
   {
     n: '04',
@@ -94,6 +100,7 @@ export const ETAPAS: Etapa[] = [
     texto: 'Quando indicado, procedimento injetável ou estético na sala de enfermagem. Se fizer sentido, atendimento com a nutricionista da equipe no mesmo dia.',
     quem: 'Enfermagem e nutricionista',
     img: '/img/dia-cuidados.webp',
+    alt: 'Mãos segurando uma xícara de chá',
   },
   {
     n: '05',
@@ -102,6 +109,7 @@ export const ETAPAS: Etapa[] = [
     texto: 'Antes de sair, o próximo encontro já fica agendado, para que o cuidado tenha continuidade.',
     quem: 'Equipe de atendimento',
     img: '/img/dia-retorno.webp',
+    alt: 'Mão escrevendo numa agenda, ao lado de uma xícara de café',
   },
 ];
 

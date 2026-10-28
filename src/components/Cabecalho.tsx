@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import Logotipo from './Logotipo';
 import { Fechar, Menu, WhatsApp } from './Icones';
 import { irPara } from './SmoothScroll';
@@ -11,17 +12,24 @@ const LINKS = [
   ['A Nuhria', '#sistemas'],
   ['Áreas de atuação', '#areas'],
   ['Primeira consulta', '#primeira-consulta'],
+  ['Quem cuida', '#equipe'],
   ['O lugar', '#lugar'],
+  ['Perguntas', '#perguntas'],
   ['Contato', '#contato'],
 ] as const;
 
 /**
  * Cabeçalho: claro sobre a abertura escura (tema "escuro"), vidro claro no resto da página.
- * O tema é trocado pela própria abertura via evento `nuhria:tema`.
+ * O tema é trocado pelas seções com foto via evento `nuhria:tema`. Fora da página inicial,
+ * os links levam de volta à seção na Início.
  */
 export default function Cabecalho() {
-  const [tema, setTema] = useState<'escuro' | 'claro'>('escuro');
+  const naInicio = usePathname() === '/';
+  const [tema, setTema] = useState<'escuro' | 'claro'>(naInicio ? 'escuro' : 'claro');
   const [aberto, setAberto] = useState(false);
+  const botaoMenu = useRef<HTMLButtonElement>(null);
+  const botaoFechar = useRef<HTMLButtonElement>(null);
+  const abriu = useRef(false);
 
   useEffect(() => {
     const on = (e: Event) => setTema((e as CustomEvent).detail);
@@ -29,45 +37,75 @@ export default function Cabecalho() {
     return () => window.removeEventListener('nuhria:tema', on);
   }, []);
 
+  // menu: trava a rolagem, leva o foco para dentro e devolve ao fechar; Esc fecha
   useEffect(() => {
-    if (aberto) window.__lenis?.stop();
-    else window.__lenis?.start();
+    if (aberto) {
+      abriu.current = true;
+      window.__lenis?.stop();
+      botaoFechar.current?.focus();
+      const esc = (e: KeyboardEvent) => e.key === 'Escape' && setAberto(false);
+      window.addEventListener('keydown', esc);
+      return () => window.removeEventListener('keydown', esc);
+    }
+    window.__lenis?.start();
+    if (abriu.current) botaoMenu.current?.focus();
   }, [aberto]);
 
   const escuro = tema === 'escuro';
   const pilula = escuro ? 'vidro-escuro text-sunlit' : 'vidro text-grafite';
+  const href = (ancora: string) => (naInicio ? ancora : `/${ancora}`);
+  const vai = (ancora: string) => (e: React.MouseEvent) => {
+    if (!naInicio) return; // navegação normal para /#secao
+    e.preventDefault();
+    irPara(ancora === '#abertura' ? 0 : ancora);
+  };
 
   return (
     <>
+      <a
+        href="#conteudo"
+        className="botao botao-escuro fixed left-4 top-4 z-[90] -translate-y-24 focus-visible:translate-y-0"
+      >
+        Pular para o conteúdo
+      </a>
       <header
         className={`fixed inset-x-0 top-0 z-50 flex items-center justify-between px-4 py-4 transition-colors duration-700 md:px-8 md:py-5 ${
           escuro ? 'text-sunlit' : 'text-grafite'
         }`}
         // "backwards": depois da entrada a animação não fica ativa (senão o cabeçalho isola o vidro dos botões)
-        style={{ animation: 'entra 1.4s 2.6s var(--ease-luz) backwards' }}
+        style={naInicio ? { animation: 'entra 1.4s 2.6s var(--ease-luz) backwards' } : undefined}
       >
+        {/* sobre fundo claro, o conteúdo some suavemente sob o cabeçalho em vez de passar por baixo do logotipo */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[110px] transition-opacity duration-700 md:h-[130px]"
+          style={{ background: 'linear-gradient(to bottom, var(--day) 48%, transparent)', opacity: escuro ? 0 : 1 }}
+        />
         <div className="flex w-[40%] items-center">
           <button
+            ref={botaoMenu}
             onClick={() => setAberto(true)}
             className={`botao h-11 gap-2.5 px-4 md:px-5 ${pilula}`}
             aria-label="Abrir menu"
+            aria-expanded={aberto}
+            aria-controls="menu-principal"
           >
             <Menu />
             <span className="hidden md:inline">Menu</span>
           </button>
         </div>
-        <a href="#abertura" onClick={(e) => (e.preventDefault(), irPara(0))} className="block" aria-label="Nuhria, início">
+        <a href={href('#abertura')} onClick={vai('#abertura')} className="block" aria-label="Nuhria, início">
           <Logotipo
             className="h-[17px] w-auto transition-[filter] duration-700 md:h-[22px]"
             style={escuro ? { filter: 'drop-shadow(0 1px 10px rgba(28,21,17,0.35))' } : undefined}
           />
         </a>
         <div className="flex w-[40%] items-center justify-end gap-2.5">
-          <a href={waLink()} target="_blank" rel="noopener" className={`botao h-11 gap-2.5 px-4 md:px-5 ${pilula}`}>
+          <a href={waLink()} target="_blank" rel="noopener" className={`botao h-11 gap-2.5 px-4 md:px-5 ${pilula}`} aria-label="Conversar pelo WhatsApp">
             <WhatsApp />
             <span className="hidden md:inline">WhatsApp</span>
           </a>
-          <a href="#contato" onClick={(e) => (e.preventDefault(), irPara('#contato'))} className={`botao hidden h-11 px-5 md:inline-flex ${escuro ? 'botao-claro' : 'botao-escuro'}`}>
+          <a href={href('#contato')} onClick={vai('#contato')} className={`botao hidden h-11 px-5 md:inline-flex ${escuro ? 'botao-claro' : 'botao-escuro'}`}>
             Agendar
           </a>
         </div>
@@ -76,38 +114,38 @@ export default function Cabecalho() {
       {/* Menu em tela cheia */}
       <div
         className={`fixed inset-0 z-[70] transition-[opacity,visibility] duration-700 ${aberto ? 'visible opacity-100' : 'invisible opacity-0'}`}
-        aria-hidden={!aberto}
+        inert={!aberto}
       >
         <div className="absolute inset-0 bg-tinta/30 backdrop-blur-xl" onClick={() => setAberto(false)} />
         <nav
-          className={`vidro absolute inset-3 flex flex-col justify-between rounded-[28px] p-7 transition-transform duration-700 md:inset-y-6 md:left-6 md:right-auto md:w-[600px] md:p-12 ${
+          id="menu-principal"
+          className={`vidro absolute inset-3 flex flex-col justify-between overflow-y-auto rounded-[28px] p-7 transition-transform duration-700 md:inset-y-6 md:left-6 md:right-auto md:w-[600px] md:p-12 ${
             aberto ? 'translate-x-0' : '-translate-x-8'
           }`}
-          style={{ background: 'rgba(255,249,241,0.86)' }}
+          style={{ background: 'rgba(255,249,241,0.88)' }}
           aria-label="Menu principal"
         >
           <div className="flex items-center justify-between">
-            <button onClick={() => setAberto(false)} className="botao botao-contorno h-11 gap-2.5 px-4">
+            <button ref={botaoFechar} onClick={() => setAberto(false)} className="botao botao-contorno h-11 gap-2.5 px-4">
               <Fechar /> Fechar
             </button>
             <Logotipo className="h-[20px] w-auto" />
           </div>
-          <ul className="space-y-2">
+          <ul className="my-8 space-y-1">
             {LINKS.map(([t, h], i) => (
               <li key={h}>
                 <a
-                  href={h}
+                  href={href(h)}
                   onClick={(e) => {
-                    e.preventDefault();
                     setAberto(false);
-                    setTimeout(() => irPara(h), 350);
+                    if (!naInicio) return;
+                    e.preventDefault();
+                    setTimeout(() => irPara(h === '#abertura' ? 0 : h), 350);
                   }}
-                  className="group flex items-baseline gap-6 py-1.5"
+                  className="group flex items-baseline gap-6 py-1"
                 >
-                  <span className="w-7 text-sm font-light text-taupe">{String(i + 1).padStart(2, '0')}</span>
-                  <span className="display text-[34px] text-grafite/55 transition-colors duration-500 group-hover:text-grafite md:text-[44px]">
-                    {t}
-                  </span>
+                  <span className="w-7 text-sm font-light text-taupe-texto">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="display text-[30px] text-grafite-72 transition-colors duration-500 group-hover:text-grafite md:text-[38px]">{t}</span>
                 </a>
               </li>
             ))}

@@ -8,6 +8,7 @@ import CursorLuz from '@/components/CursorLuz';
 import AnelNavegacao from '@/components/AnelNavegacao';
 import Cabecalho from '@/components/Cabecalho';
 import AcaoFixa from '@/components/AcaoFixa';
+import { SITE_URL } from '@/lib/brand';
 
 // Mories: licença DEMO no arquivo do projeto. Confirmar licença comercial antes de publicar.
 const mories = localFont({
@@ -26,10 +27,23 @@ const mont = localFont({
   display: 'swap',
 });
 
+const DESCRICAO =
+  'Cuidado médico que começa pela escuta e segue com você ao longo do tempo. Com a Dra. Suzana Lessa e equipe, de frente para o mar de Charitas, em Niterói.';
+
 export const metadata: Metadata = {
-  title: 'Nuhria · Charitas, Niterói',
-  description:
-    'Cuidado médico que começa pela escuta e segue com você ao longo do tempo. Com a Dra. Suzana Lessa e equipe, de frente para o mar de Charitas, em Niterói.',
+  metadataBase: new URL(SITE_URL),
+  title: { default: 'Nuhria · Charitas, Niterói', template: '%s · Nuhria' },
+  description: DESCRICAO,
+  alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    locale: 'pt_BR',
+    siteName: 'Nuhria',
+    title: 'Nuhria · o que a luz atravessa, se revela',
+    description: DESCRICAO,
+    images: [{ url: '/og.jpg', width: 1200, height: 630, alt: 'Nuhria: o símbolo de luz sobre a sala com vista para o mar' }],
+  },
+  twitter: { card: 'summary_large_image', images: ['/og.jpg'] },
 };
 
 export const viewport: Viewport = {

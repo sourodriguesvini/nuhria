@@ -23,6 +23,8 @@ Para revisar a experiência completa numa máquina com "reduzir movimento" ligad
 | 5 | **O vidro** | A vista da orla em tela cheia e uma lâmina de vidro espesso com refração real (bisel, fosco leve, dispersão, luz a -45°) que acompanha o cursor, o giroscópio no celular ou deriva sozinha. Nasce como uma fresta. Cartão de endereço com Google Maps e Waze. | `sections/Vidro.tsx`, `gl/vidroShader.ts` |
 | 6 | **Comece por uma conversa** | O formulário vira conversa, uma pergunta por vez (nome, WhatsApp com máscara, quem indicou, o que procura), com resumo editável e aceite de uso dos dados. Cada resposta acende um trecho do anel; ao enviar, a volta se completa e a conversa abre no WhatsApp com a mensagem pronta. | `sections/Conversa.tsx` |
 
+Entre os momentos: **Quem cuida** (`sections/Equipe.tsx`: retrato que abre por uma fresta, faixa de luz e o fio da equipe que acende ponto a ponto) e **Perguntas frequentes** (`sections/Perguntas.tsx`: a linha da pergunta acende em luz ao abrir; dados estruturados FAQPage). Página **Política de privacidade** em `/privacidade/`.
+
 **Sistema que atravessa a página:** rolagem macia (Lenis + GSAP ScrollTrigger), a cor do fundo esquenta com a rolagem (`CorDoDia`), o cursor é um halo de luz (`CursorLuz`), grão de filme leve, o anel de 52 pontos como indicador de percurso (`AnelNavegacao`), cabeçalho que troca de tema sobre fotos escuras, menu em tela cheia e a ação sempre à mão depois da abertura (`AcaoFixa`: "Fale com a equipe" no desktop, barra "Agendar uma conversa" + WhatsApp no celular; some onde a base da tela já tem função).
 
 ## Contatos do formulário
@@ -42,5 +44,12 @@ Sem servidor, o contato segue pelo WhatsApp da clínica com a mensagem pronta. P
 - **Fotos reais** (com a Ju do Mar): Dra. Suzana, eventos e vista do local. As fotos atuais são da direção de imagem da marca. Vídeo da abertura: hoje a foto ganha vida no shader; um loop real da luz no vidro entra no lugar.
 - **Confirmar com a Dra.:** as seis áreas de atuação; "01 página · 03 prioridades · 90 dias até a reavaliação"; @saudenuhria.
 - **Rodapé (CFM 2.336/2023):** registro da clínica no CRM-RJ e nome do diretor técnico-médico.
-- **Política de privacidade (LGPD)** antes de ligar o formulário (o aceite já está na conversa; falta a página).
-- **Quem cuida e perguntas frequentes:** a Dra. Suzana e a equipe aparecem nas etapas do dia; uma seção própria com foto real e as perguntas da v1 ainda não entraram.
+- **Política de privacidade:** texto-base em `/privacidade/`, a revisar com a assessoria jurídica (e, se houver, nome do encarregado de dados e CNPJ).
+- **Quem cuida:** a foto da Dra. é provisória (só mãos); nome e CRN da nutricionista a confirmar.
+- **Domínio:** `NEXT_PUBLIC_SITE_URL` (padrão `https://clinicanuhria.com.br`, a confirmar) alimenta a imagem de compartilhamento, o sitemap, o robots e os dados estruturados.
+
+## Qualidade
+
+Lighthouse no build estático (27/10/2026): acessibilidade 100, boas práticas 100, SEO 100 na Início e na Política de privacidade. Texto pequeno em Warm Taupe usa o tom `taupe-texto` (#6E5240), que passa AA em todos os fundos; pontos, fios e linhas seguem no Warm Taupe da paleta.
+
+> Ao rodar `npm run build`, pare o `npm run dev` antes: os dois usam a pasta `.next` e o servidor de desenvolvimento passa a servir arquivos quebrados.

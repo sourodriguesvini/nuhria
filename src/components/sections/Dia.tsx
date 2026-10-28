@@ -121,7 +121,7 @@ export default function Dia() {
         >
           {/* abertura do momento */}
           <div className="w-[min(84vw,520px)] shrink-0 md:mr-[4vw]">
-            <p className="rotulo text-taupe">Primeira consulta</p>
+            <p className="rotulo text-taupe-texto">Primeira consulta</p>
             <p className="abertura mt-6 text-[clamp(19px,1.9vw,26px)] text-grafite-72">da chegada</p>
             <h2 className="display mt-1 text-[clamp(52px,7vw,104px)]">Ao retorno</h2>
             <p className="lead mt-7 max-w-[440px] text-grafite">
@@ -146,12 +146,13 @@ export default function Dia() {
                   fotos.current[i] = el;
                 }}
                 src={e.img}
-                alt=""
+                alt={e.alt}
+                loading="lazy"
                 className="absolute inset-y-0 left-[-10%] h-full w-[120%] max-w-none object-cover will-change-transform"
               />
               <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(28,21,17,0) 45%, rgba(28,21,17,0.35))' }} />
               <div className="vidro absolute inset-x-3 bottom-3 rounded-[18px] p-5 md:inset-x-4 md:bottom-4 md:p-6">
-                <p className="rotulo text-[10.5px] text-taupe">
+                <p className="rotulo text-[10.5px] text-taupe-texto">
                   {e.n} · {e.rotulo}
                 </p>
                 <h3 className="display mt-2.5 text-[clamp(22px,2.1vw,30px)] leading-[1.05]">{e.titulo}</h3>
@@ -213,7 +214,7 @@ export default function Dia() {
                         on ? 'border-taupe bg-taupe' : 'border-taupe/60 bg-[var(--day)]'
                       } ${ativa === i ? 'scale-125' : ''}`}
                     />
-                    <span className={`hidden text-[12px] transition-colors duration-500 md:block ${ativa === i ? 'text-grafite' : 'text-grafite/45'}`}>
+                    <span className={`hidden text-[12px] transition-colors duration-500 md:block ${ativa === i ? 'text-grafite' : 'text-grafite-72'}`}>
                       {e.rotulo}
                     </span>
                   </button>

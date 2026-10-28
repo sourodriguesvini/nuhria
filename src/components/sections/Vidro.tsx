@@ -193,7 +193,7 @@ export default function Vidro() {
           className="vidro absolute inset-x-3 bottom-3 rounded-[20px] p-6 md:inset-x-auto md:bottom-[6vh] md:left-[var(--gutter)] md:w-[420px] md:p-7"
           style={{ opacity: 0, background: 'rgba(255,249,241,0.72)' }}
         >
-          <p className="rotulo text-taupe">Endereço</p>
+          <p className="rotulo text-taupe-texto">Endereço</p>
           <p className="mt-3 text-[18px] font-light">{ENDERECO.rua}</p>
           <p className="mt-1 text-[14px] text-grafite-72">
             {ENDERECO.sala} · {ENDERECO.cidade}

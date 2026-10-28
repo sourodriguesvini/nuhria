@@ -6,6 +6,9 @@
   --color-oat: #e3d2bd;
   --color-sand: #d7b895;
   --color-taupe: #a67f60;
+  /* Warm Taupe escurecido só para texto pequeno: passa AA (≥ 4,8:1) em todos os fundos do site */
+  --color-taupe-texto: #6e5240;
+  --color-grafite-80: #4f4f4e;
   --color-grafite: #222222;
   --color-grafite-72: #5e5e5d;
   --color-tinta: #1c1511;
@@ -30,6 +33,16 @@ body {
   font-family: var(--font-sans);
   background: var(--day);
   overflow-x: clip;
+}
+/* foco visível para quem navega pelo teclado, na cor da marca */
+:focus-visible {
+  outline: 2px solid var(--color-taupe);
+  outline-offset: 3px;
+  border-radius: 999px;
+}
+input:focus-visible,
+textarea:focus-visible {
+  outline: none;
 }
 ::selection {
   background: var(--color-oat);

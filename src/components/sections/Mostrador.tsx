@@ -195,7 +195,7 @@ export default function Mostrador() {
         >
           {/* título da seção */}
           <div className="[grid-area:cabeca] md:self-end">
-            <p className="rotulo text-taupe">Áreas de atuação</p>
+            <p className="rotulo text-taupe-texto">Áreas de atuação</p>
             <p className="abertura mt-4 text-[clamp(17px,1.6vw,22px)] text-grafite-72 md:mt-5">seis caminhos,</p>
             <h2 className="display mt-1 text-[clamp(30px,3.3vw,48px)]">uma mesma escuta</h2>
           </div>
@@ -233,7 +233,7 @@ export default function Mostrador() {
             {/* lente */}
             <div className="absolute inset-[18%] overflow-hidden rounded-full">
               <canvas ref={canvas} className="h-full w-full" aria-hidden />
-              <img src={area.img} alt="" className="lente-alt absolute inset-0 hidden h-full w-full object-cover" />
+              <img src={area.img} alt="" loading="lazy" className="lente-alt absolute inset-0 hidden h-full w-full object-cover" />
             </div>
             {/* números das áreas */}
             {AREAS.map((_, n) => (
@@ -242,7 +242,7 @@ export default function Mostrador() {
                 ref={(el) => {
                   numeros.current[n] = el;
                 }}
-                className="pointer-events-none absolute left-1/2 top-1/2 text-[12px] font-light tracking-[0.08em] text-taupe will-change-transform"
+                className="pointer-events-none absolute left-1/2 top-1/2 text-[12px] font-light tracking-[0.08em] text-taupe-texto will-change-transform"
               >
                 {String(n + 1).padStart(2, '0')}
               </span>
@@ -252,8 +252,8 @@ export default function Mostrador() {
           {/* área ativa */}
           <div className="[grid-area:texto] md:self-start">
             <div key={area.slug} className="varre">
-              <p className="text-[13px] font-light tracking-[0.12em] text-taupe">
-                {String(ativo + 1).padStart(2, '0')} <span className="text-grafite/30">/ 06</span>
+              <p className="text-[13px] font-light tracking-[0.12em] text-taupe-texto">
+                {String(ativo + 1).padStart(2, '0')} <span className="text-grafite-72">/ 06</span>
               </p>
               <h3 className="display mt-3 text-[clamp(28px,3vw,46px)] [overflow-wrap:anywhere]">{area.titulo}</h3>
               <p className="mt-3 max-w-[480px] text-[15px] leading-[1.65] text-grafite-72 md:mt-4 md:text-[16px]">{area.texto}</p>
@@ -262,8 +262,8 @@ export default function Mostrador() {
               {AREAS.map((a, n) => (
                 <li key={a.slug} className="border-b border-grafite/15">
                   <button onClick={() => irParaArea(n)} className="group flex w-full items-center justify-between py-3 text-left">
-                    <span className={`text-[14px] transition-colors duration-500 ${n === ativo ? 'text-grafite' : 'text-grafite/45 group-hover:text-grafite/80'}`}>
-                      <span className="mr-4 font-light text-taupe">{String(n + 1).padStart(2, '0')}</span>
+                    <span className={`text-[14px] transition-colors duration-500 ${n === ativo ? 'text-grafite' : 'text-grafite-72 group-hover:text-grafite'}`}>
+                      <span className="mr-4 font-light text-taupe-texto">{String(n + 1).padStart(2, '0')}</span>
                       {a.titulo}
                     </span>
                     <span className={`h-1.5 w-1.5 rounded-full bg-taupe transition-opacity duration-500 ${n === ativo ? 'opacity-100' : 'opacity-0'}`} />

@@ -258,7 +258,7 @@ export default function Sinais() {
 
         <div className="pointer-events-none absolute inset-x-0 top-[13vh] px-[var(--gutter)] md:top-1/2 md:w-[44vw] md:-translate-y-1/2">
           <div ref={textoA} className="max-w-[520px]">
-            <p className="rotulo text-taupe">A Nuhria</p>
+            <p className="rotulo text-taupe-texto">A Nuhria</p>
             <p className="abertura mt-6 text-[clamp(19px,1.9vw,26px)] text-grafite-72">uma medicina que pensa em</p>
             <h2 className="display mt-1 text-[clamp(40px,5vw,72px)]">Sistemas, não em sintomas</h2>
             <p className="corpo mt-7 hidden max-w-[440px] text-grafite-72 md:block">
@@ -267,7 +267,7 @@ export default function Sinais() {
             </p>
           </div>
           <div ref={textoB} className="absolute inset-x-[var(--gutter)] top-0 max-w-[520px] md:inset-x-auto md:left-[var(--gutter)]" style={{ opacity: 0 }}>
-            <p className="rotulo text-taupe">O que você leva</p>
+            <p className="rotulo text-taupe-texto">O que você leva</p>
             <p className="abertura mt-6 text-[clamp(19px,1.9vw,26px)] text-grafite-72">sinais dispersos viram</p>
             <h2 className="display mt-1 text-[clamp(40px,5vw,72px)]">Prioridade clara</h2>
             <p className="corpo mt-7 hidden max-w-[440px] text-grafite-72 md:block">

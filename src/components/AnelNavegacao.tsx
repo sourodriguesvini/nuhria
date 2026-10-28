@@ -12,7 +12,7 @@ import { r4 } from '@/lib/math';
 export default function AnelNavegacao() {
   const dots = useRef<(SVGCircleElement | null)[]>([]);
   const centro = useRef<SVGCircleElement>(null);
-  const [secao, setSecao] = useState('Abertura');
+  const [secao, setSecao] = useState('Início');
 
   useEffect(() => {
     let raf = 0;
