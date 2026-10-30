@@ -25,19 +25,21 @@ export default function AcaoFixa() {
     }
     const depois = ScrollTrigger.create({ trigger: '#abertura', start: 'bottom 70%', end: 'max', onToggle: (s) => setDepois(s.isActive) });
     const contato = ScrollTrigger.create({ trigger: '#contato', start: 'top 75%', end: 'bottom top', onToggle: (s) => setNoContato(s.isActive) });
-    // a base da tela já tem função na travessia do dia (o fio) e no lugar (o cartão de endereço)
-    const ocupado = { dia: false, lugar: false };
-    const marca = (k: 'dia' | 'lugar') => (s: ScrollTrigger) => {
+    // a base da tela já tem função nas áreas (painel), no dia (o fio) e no lugar (o cartão de endereço)
+    const ocupado = { dia: false, lugar: false, areas: false };
+    const marca = (k: 'dia' | 'lugar' | 'areas') => (s: ScrollTrigger) => {
       ocupado[k] = s.isActive;
-      setNoDia(ocupado.dia || ocupado.lugar);
+      setNoDia(ocupado.dia || ocupado.lugar || ocupado.areas);
     };
     const dia = ScrollTrigger.create({ trigger: '#primeira-consulta', start: 'top 40%', end: 'bottom 60%', onToggle: marca('dia') });
     const lugar = ScrollTrigger.create({ trigger: '#lugar', start: 'top 30%', end: 'bottom bottom', onToggle: marca('lugar') });
+    const areas = ScrollTrigger.create({ trigger: '#areas', start: 'top 40%', end: 'bottom 60%', onToggle: marca('areas') });
     return () => {
       depois.kill();
       contato.kill();
       dia.kill();
       lugar.kill();
+      areas.kill();
     };
   }, []);
 

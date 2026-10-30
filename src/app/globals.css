@@ -20,6 +20,8 @@
 :root {
   --day: #fff9f1; /* cor do dia, muda com a rolagem */
   --gutter: clamp(20px, 5.5vw, 80px);
+  /* margem única do site: o conteúdo nunca passa de 1480 px e todas as seções alinham na mesma linha */
+  --margem: max(var(--gutter), calc((100vw - 1480px) / 2));
   color-scheme: light;
 }
 
@@ -38,7 +40,15 @@ body {
 :focus-visible {
   outline: 2px solid var(--color-taupe);
   outline-offset: 3px;
+}
+a:focus-visible,
+button:focus-visible {
   border-radius: 999px;
+}
+/* campos do formulário: só a linha de baixo, sem cantos arredondados */
+input,
+textarea {
+  border-radius: 0;
 }
 input:focus-visible,
 textarea:focus-visible {

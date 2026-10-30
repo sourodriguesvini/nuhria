@@ -178,7 +178,7 @@ export default function Vidro() {
           <img src={FOTO} alt="" className="vidro-alt absolute inset-0 hidden h-full w-full object-cover" />
         </div>
 
-        <div ref={texto} className="absolute inset-x-[var(--gutter)] bottom-[calc(12px+290px)] text-sunlit md:bottom-auto md:top-[16vh] md:max-w-[520px]" style={{ opacity: 0 }}>
+        <div ref={texto} className="absolute inset-x-[var(--margem)] bottom-[calc(12px+290px)] text-sunlit md:bottom-auto md:top-[16vh] md:max-w-[520px]" style={{ opacity: 0 }}>
           <p className="rotulo">O lugar</p>
           <p className="abertura mt-6 text-[clamp(19px,1.9vw,26px)]">em Charitas, Niterói,</p>
           <h2 className="display mt-1 text-[clamp(44px,5.6vw,84px)]">De frente para o mar</h2>
@@ -190,7 +190,7 @@ export default function Vidro() {
 
         <div
           ref={cartao}
-          className="vidro absolute inset-x-3 bottom-3 rounded-[20px] p-6 md:inset-x-auto md:bottom-[6vh] md:left-[var(--gutter)] md:w-[420px] md:p-7"
+          className="vidro absolute inset-x-3 bottom-3 rounded-[20px] p-6 md:inset-x-auto md:bottom-[6vh] md:left-[var(--margem)] md:w-[420px] md:p-7"
           style={{ opacity: 0, background: 'rgba(255,249,241,0.72)' }}
         >
           <p className="rotulo text-taupe-texto">Endereço</p>

@@ -3,7 +3,7 @@ import { ENDERECO, IDENTIFICACAO_MEDICA, INSTAGRAM, MAPS, WHATSAPP_LEGIVEL, waLi
 
 export default function Rodape() {
   return (
-    <footer className="bg-oat px-[var(--gutter)] pb-10 pt-20 text-grafite md:pt-24">
+    <footer className="bg-oat px-[var(--margem)] pb-10 pt-20 text-grafite md:pt-24">
       <div className="grid gap-12 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
         <div>
           <Logotipo className="h-[30px] w-auto" />

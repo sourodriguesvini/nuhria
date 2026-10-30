@@ -75,7 +75,7 @@ const BLOCOS: { titulo: string; texto: string[] }[] = [
 export default function Privacidade() {
   return (
     <>
-      <main id="conteudo" className="px-[var(--gutter)] pb-[120px] pt-[150px] md:pt-[190px]">
+      <main id="conteudo" className="px-[var(--margem)] pb-[120px] pt-[150px] md:pt-[190px]">
         <article className="mx-auto max-w-[760px]">
           <p className="rotulo text-taupe-texto">Política de privacidade</p>
           <p className="abertura mt-6 text-[clamp(19px,1.9vw,26px)] text-grafite-72">como cuidamos dos</p>

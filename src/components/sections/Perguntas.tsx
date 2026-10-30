@@ -37,7 +37,7 @@ export default function Perguntas() {
   }, []);
 
   return (
-    <section id="perguntas" data-secao="Perguntas" ref={secao} className="px-[var(--gutter)] py-[clamp(96px,15vh,170px)]">
+    <section id="perguntas" data-secao="Perguntas" ref={secao} className="px-[var(--margem)] py-[clamp(96px,15vh,170px)]">
       <div className="mx-auto grid max-w-[1480px] gap-12 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] md:gap-[6vw]">
         <div className="md:sticky md:top-[18vh] md:self-start">
           <p className="rotulo text-taupe-texto">Perguntas frequentes</p>

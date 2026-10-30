@@ -197,7 +197,8 @@ export default function Fresta() {
       renderer.render(cena, cam);
 
       // ---- texto
-      const tituloVis = smoothstep(1.5, 2.6, intro);
+      // o título não aparece na abertura: ele surge com a rolagem, revelado pela luz
+      const tituloVis = smoothstep(0.02, 0.18, p);
       const esq = wx - hx;
       const dir = wx + hx;
       const h1 = titulo.current!;
@@ -243,19 +244,19 @@ export default function Fresta() {
 
         <div ref={bloco} className="absolute inset-x-0 top-0 flex flex-col items-center px-5 text-center will-change-transform">
           <p ref={abertura} className="abertura text-[clamp(19px,2.1vw,30px)] text-sunlit/90" style={{ opacity: 0 }}>
-            o que a luz atravessa,
+            perceber vem antes de
           </p>
           <h1
             ref={titulo}
             className="display revela mt-1 text-[clamp(62px,11.2vw,176px)] text-sunlit"
             style={{ opacity: 0, textShadow: '0 0 60px rgba(255,236,205,0.35)' }}
           >
-            Se revela
+            Decidir
           </h1>
           <div ref={final} className="mt-6 flex flex-col items-center md:mt-8" style={{ opacity: 0 }}>
             <p className="lead max-w-[560px] text-sunlit" style={{ textShadow: '0 1px 18px rgba(28,21,17,0.55)' }}>
-              Cuidado médico que começa pela escuta e segue com você ao longo do tempo. Com a Dra. Suzana Lessa e equipe,
-              de frente para o mar de Charitas.
+              A Nuhria ilumina o que está por trás dos seus sinais para que o caminho fique claro e a decisão seja sua.
+              Cuidado médico com a Dra. Suzana Lessa e equipe, em Charitas, Niterói.
             </p>
             <div className="mt-8 flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row">
               <a href={waLink()} target="_blank" rel="noopener" className="botao botao-claro w-full sm:w-auto">
@@ -273,7 +274,7 @@ export default function Fresta() {
         </div>
 
         <div ref={dica} className="absolute inset-x-0 bottom-7 flex flex-col items-center gap-3 text-sunlit/70" style={{ opacity: 0 }}>
-          <span className="rotulo text-[10px]">Role para entrar na luz</span>
+          <span className="rotulo text-[10px]">Role e conheça a Nuhria</span>
           <span className="relative block h-10 w-px overflow-hidden bg-sunlit/20">
             <span className="absolute inset-x-0 top-0 h-1/2 bg-sunlit/80" style={{ animation: 'desce 1.8s var(--ease-luz) infinite' }} />
           </span>

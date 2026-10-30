@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'pt_BR',
     siteName: 'Nuhria',
-    title: 'Nuhria · o que a luz atravessa, se revela',
+    title: 'Nuhria · perceber vem antes de decidir',
     description: DESCRICAO,
     images: [{ url: '/og.jpg', width: 1200, height: 630, alt: 'Nuhria: o símbolo de luz sobre a sala com vista para o mar' }],
   },

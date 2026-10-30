@@ -59,7 +59,7 @@ export default function Conversa() {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         foto.current,
-        { clipPath: 'inset(8% 49.6% 8% 49.6% round 999px)' },
+        { clipPath: 'inset(14% 10% 14% 10% round 28px)' },
         { clipPath: 'inset(0% 0% 0% 0% round 28px)', ease: 'none', scrollTrigger: { trigger: secao.current, start: 'top 85%', end: 'top 5%', scrub: true } },
       );
       const tema = (t: string) => () => window.dispatchEvent(new CustomEvent('nuhria:tema', { detail: t }));
@@ -133,7 +133,7 @@ export default function Conversa() {
         <img src="/img/janela-mar.webp" alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(105deg, rgba(28,21,17,0.68), rgba(28,21,17,0.3))' }} />
 
-        <div className="relative grid min-h-[100svh] items-center gap-12 px-5 py-28 md:grid-cols-[1fr_minmax(0,560px)] md:gap-[6vw] md:px-[var(--gutter)]">
+        <div className="relative grid min-h-[100svh] items-center gap-12 px-5 py-28 md:grid-cols-[1fr_minmax(0,560px)] md:gap-[6vw] md:px-[var(--margem)]">
           <div className="text-sunlit">
             <p className="rotulo">Contato</p>
             <p className="abertura mt-6 text-[clamp(19px,2vw,28px)]">comece por uma</p>

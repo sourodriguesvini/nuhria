@@ -117,7 +117,7 @@ export default function Dia() {
       <div className="sticky top-0 h-[100svh] overflow-hidden">
         <div
           ref={trilha}
-          className="absolute inset-y-0 left-0 flex items-center gap-[4vw] pl-[var(--gutter)] pr-[18vw] will-change-transform md:gap-[2.6vw]"
+          className="absolute inset-y-0 left-0 flex items-center gap-[4vw] pl-[var(--margem)] pr-[18vw] will-change-transform md:gap-[2.6vw]"
         >
           {/* abertura do momento */}
           <div className="w-[min(84vw,520px)] shrink-0 md:mr-[4vw]">
@@ -199,7 +199,7 @@ export default function Dia() {
         />
 
         {/* fio e ponto: as cinco etapas */}
-        <div className="absolute inset-x-[var(--gutter)] bottom-[4.5vh] md:bottom-[5vh]">
+        <div className="absolute inset-x-[var(--margem)] bottom-[4.5vh] md:bottom-[5vh]">
           <div className="relative h-px bg-grafite/15">
             <span ref={preenche} className="absolute inset-0 origin-left bg-taupe" style={{ transform: 'scaleX(0)' }} />
           </div>

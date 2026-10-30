@@ -69,16 +69,15 @@ export default function Equipe() {
   }, []);
 
   return (
-    <section id="equipe" data-secao="Quem cuida" ref={secao} className="px-[var(--gutter)] py-[clamp(96px,15vh,170px)]">
+    <section id="equipe" data-secao="Quem cuida" ref={secao} className="px-[var(--margem)] py-[clamp(96px,15vh,170px)]">
       <div className="mx-auto grid max-w-[1480px] items-center gap-14 md:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] md:gap-[6vw]">
         <figure ref={figura} className="relative aspect-[4/5] overflow-hidden rounded-[24px] md:rounded-[28px]">
-          {/* foto provisória: trocar pela foto recente da Dra. Suzana (com a Ju do Mar) */}
           <img
             ref={foto}
             src="/img/equipe-dra.webp"
-            alt="Mãos sobre uma mesa clara durante uma conversa, com papel e caneta"
+            alt="Dra. Suzana Lessa sentada à mesa, junto à janela com vista para o mar"
             loading="lazy"
-            className="absolute inset-0 h-full w-full object-cover will-change-transform"
+            className="absolute inset-0 h-full w-full object-cover object-[50%_30%] will-change-transform"
           />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(28,21,17,0) 45%, rgba(28,21,17,0.45))' }} />
           <div

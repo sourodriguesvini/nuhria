@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { AXIS_DOWN, AXIS_UP, CENTER_SIZE, RING_DOTS, dotNear, ringXY } from '@/lib/ring';
+import { AXIS_DOWN, AXIS_UP, CENTER_SIZE, RING_DOTS, ringXY } from '@/lib/ring';
 import { clamp, easeInOutCubic, lerp, mulberry32, prefersReducedMotion, smoothstep } from '@/lib/math';
 import { Seta } from '../Icones';
 import { irPara } from '../SmoothScroll';
@@ -11,26 +11,17 @@ import { irPara } from '../SmoothScroll';
 // Sinais que aparecem soltos antes de virarem sistema.
 const SINAIS = ['sono', 'energia', 'hormônios', 'metabolismo', 'rotina', 'alimentação', 'movimento', 'história'];
 const COM_ROTULO = [3, 10, 16, 23, 29, 36, 42, 49];
-// Copy aprovada nas peças sociais. Confirmar com a Dra. antes de publicar.
-// Ficam todas na metade direita do anel, para os rótulos não cruzarem o texto.
-const PRIORIDADES = [
-  { i: dotNear(34), t: '01 página' },
-  { i: dotNear(92), t: '03 prioridades' },
-  { i: dotNear(148), t: '90 dias até a reavaliação' },
-];
 
 /**
- * Momento 2 · Sinais dispersos viram prioridade clara.
- * O posicionamento da marca como interação: os 52 sinais soltos, cada um no seu canto, se organizam
- * no anel; três acendem como prioridades e o eixo com o ponto central fecha o símbolo.
+ * Momento 2 · A Nuhria: sistemas, não sintomas.
+ * O método da clínica como interação: sinais soltos (sono, energia, hormônios…), cada um no seu canto,
+ * se organizam no anel de 52 pontos e o eixo com o ponto central fecha o símbolo.
  */
 export default function Sinais() {
   const secao = useRef<HTMLElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   const textoA = useRef<HTMLDivElement>(null);
-  const textoB = useRef<HTMLDivElement>(null);
   const rotulos = useRef<(HTMLSpanElement | null)[]>([]);
-  const prioridades = useRef<(HTMLSpanElement | null)[]>([]);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -49,8 +40,6 @@ export default function Sinais() {
       ordem: rnd(),
       alfa: 0.28 + rnd() * 0.4,
     }));
-    const prioSet = new Map(PRIORIDADES.map((p, k) => [p.i, k]));
-    const rotSet = new Map(COM_ROTULO.map((i, k) => [i, k]));
 
     let W = 1;
     let H = 1;
@@ -92,10 +81,9 @@ export default function Sinais() {
         ? { x0: W * 0.06, x1: W * 0.74, y0: H * 0.44, y1: H * 0.93 }
         : { x0: W * 0.42, x1: W * 0.96, y0: H * 0.12, y1: H * 0.9 };
 
-      const junta = smoothstep(0.1, 0.58, p);
-      const prio = smoothstep(0.6, 0.74, p);
+      const junta = smoothstep(0.06, 0.62, p);
+      const prio = smoothstep(0.64, 0.82, p); // o símbolo se completa
       const deriva = reduzir ? 0 : 1;
-      const giro = (1 - junta) * 0 + prio * 0; // reservado: o anel pode girar devagar no fim
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, W, H);
@@ -106,39 +94,16 @@ export default function Sinais() {
         const gi = easeInOutCubic(clamp((junta - s.ordem * 0.42) / 0.58));
         const bx = lerp(area.x0, area.x1, s.u) + Math.sin(t * 0.32 + s.fase) * 16 * deriva;
         const by = lerp(area.y0, area.y1, s.v) + Math.cos(t * 0.27 + s.fase * 1.3) * 13 * deriva;
-        const alvo = ringXY(dot, cx, cy, R, giro);
+        const alvo = ringXY(dot, cx, cy, R);
         const x = lerp(bx, alvo.x, gi);
         const y = lerp(by, alvo.y, gi);
         const r = lerp(s.tam, alvo.r, gi);
-        const k = prioSet.get(i);
         pos[i] = { x, y, r };
         ctx.beginPath();
         ctx.arc(x, y, Math.max(r, 0.6), 0, Math.PI * 2);
-        // prioridade: o próprio ponto da logo só muda para a cor da marca (sem crescer, sem brilho)
-        ctx.fillStyle =
-          k !== undefined && prio > 0.01
-            ? `rgba(${Math.round(lerp(34, 166, prio))},${Math.round(lerp(34, 127, prio))},${Math.round(lerp(34, 96, prio))},${lerp(0.82, 1, prio)})`
-            : `rgba(34,34,34,${lerp(s.alfa, 0.82, gi)})`;
+        ctx.fillStyle = `rgba(34,34,34,${lerp(s.alfa, 0.82, gi)})`;
         ctx.fill();
       });
-
-      // fio que aponta de cada prioridade até o seu rótulo
-      if (prio > 0.01 && !movel) {
-        ctx.strokeStyle = `rgba(166,127,96,${0.9 * prio})`;
-        ctx.lineWidth = 1;
-        PRIORIDADES.forEach((pr) => {
-          const a = pos[pr.i];
-          const dx = a.x - cx;
-          const dy = a.y - cy;
-          const len = Math.hypot(dx, dy) || 1;
-          const de = len + a.r + 6;
-          const ate = len + a.r + 6 + 26 * prio;
-          ctx.beginPath();
-          ctx.moveTo(cx + (dx / len) * de, cy + (dy / len) * de);
-          ctx.lineTo(cx + (dx / len) * ate, cy + (dy / len) * ate);
-          ctx.stroke();
-        });
-      }
 
       // fios entre os sinais nomeados, enquanto viajam (sistema, não sintoma)
       const fio = Math.sin(Math.PI * clamp(junta)) * 0.42;
@@ -185,36 +150,12 @@ export default function Sinais() {
         el.style.transform = `translate3d(${a.x + a.r + 10}px, ${a.y - 9}px, 0)`;
         el.style.opacity = String(entra * (1 - smoothstep(0.35, 0.85, gi)));
       });
-      // rótulos das prioridades, para fora do anel
-      PRIORIDADES.forEach((pr, k) => {
-        const el = prioridades.current[k];
-        if (!el) return;
-        const a = pos[pr.i];
-        const dx = a.x - cx;
-        const dy = a.y - cy;
-        const len = Math.hypot(dx, dy) || 1;
-        const ox = cx + (dx / len) * (len + a.r + 38);
-        const oy = cy + (dy / len) * (len + a.r + 38);
-        const esquerda = dx < -R * 0.2;
-        // no celular não cabe ao lado do anel: vira uma lista acima dele
-        el.style.transform = movel
-          ? `translate3d(${W * 0.055}px, ${H * 0.36 + k * 36}px, 0)`
-          : `translate3d(${ox}px, ${oy}px, 0) translate(${esquerda ? '-100%' : dx > R * 0.2 ? '0' : '-50%'}, -50%)`;
-        el.style.opacity = String(prio);
-      });
 
-      // texto: A sai, B entra
-      const a = 1 - smoothstep(0.5, 0.6, p);
-      const b = smoothstep(0.62, 0.72, p);
+      // texto entra junto com a seção
+      const a = smoothstep(0.0, 0.08, p);
       const ta = textoA.current!;
-      const tb = textoB.current!;
       ta.style.opacity = String(a);
-      ta.style.transform = `translate3d(0, ${lerp(-26, 0, a)}px, 0)`;
-      ta.style.filter = `blur(${(1 - a) * 8}px)`;
-      tb.style.opacity = String(b);
-      tb.style.transform = `translate3d(0, ${lerp(26, 0, b)}px, 0)`;
-      tb.style.filter = `blur(${(1 - b) * 8}px)`;
-      tb.style.pointerEvents = b > 0.5 ? 'auto' : 'none';
+      ta.style.transform = `translate3d(0, ${lerp(26, 0, a)}px, 0)`;
     };
     raf = requestAnimationFrame(quadro);
 
@@ -227,7 +168,7 @@ export default function Sinais() {
   }, []);
 
   return (
-    <section id="sistemas" data-secao="Sistemas" ref={secao} className="relative h-[430vh]">
+    <section id="sistemas" data-secao="A Nuhria" ref={secao} className="relative h-[300vh]">
       <div className="sticky top-0 h-[100svh] overflow-hidden">
         <canvas ref={canvas} className="absolute inset-0 h-full w-full" aria-hidden />
         {SINAIS.map((s, k) => (
@@ -243,43 +184,23 @@ export default function Sinais() {
             {s}
           </span>
         ))}
-        {PRIORIDADES.map((pr, k) => (
-          <span
-            key={pr.t}
-            ref={(el) => {
-              prioridades.current[k] = el;
-            }}
-            className="rotulo vidro pointer-events-none absolute left-0 top-0 whitespace-nowrap rounded-full px-3.5 py-2 text-[10.5px] text-grafite will-change-transform"
-            style={{ opacity: 0 }}
-          >
-            {pr.t}
-          </span>
-        ))}
 
-        <div className="pointer-events-none absolute inset-x-0 top-[13vh] px-[var(--gutter)] md:top-1/2 md:w-[44vw] md:-translate-y-1/2">
-          <div ref={textoA} className="max-w-[520px]">
+        <div className="pointer-events-none absolute inset-x-0 top-[13vh] px-[var(--margem)] md:top-1/2 md:w-[44vw] md:-translate-y-1/2">
+          <div ref={textoA} className="max-w-[520px]" style={{ opacity: 0 }}>
             <p className="rotulo text-taupe-texto">A Nuhria</p>
             <p className="abertura mt-6 text-[clamp(19px,1.9vw,26px)] text-grafite-72">uma medicina que pensa em</p>
             <h2 className="display mt-1 text-[clamp(40px,5vw,72px)]">Sistemas, não em sintomas</h2>
             <p className="corpo mt-7 hidden max-w-[440px] text-grafite-72 md:block">
-              Sono, energia, hormônios, rotina. Cada sinal conta uma parte da história. Na Nuhria, a consulta começa
-              pela escuta e lê esses sinais juntos, como um sistema.
-            </p>
-          </div>
-          <div ref={textoB} className="absolute inset-x-[var(--gutter)] top-0 max-w-[520px] md:inset-x-auto md:left-[var(--gutter)]" style={{ opacity: 0 }}>
-            <p className="rotulo text-taupe-texto">O que você leva</p>
-            <p className="abertura mt-6 text-[clamp(19px,1.9vw,26px)] text-grafite-72">sinais dispersos viram</p>
-            <h2 className="display mt-1 text-[clamp(40px,5vw,72px)]">Prioridade clara</h2>
-            <p className="corpo mt-7 hidden max-w-[440px] text-grafite-72 md:block">
-              O que estava espalhado ganha ordem: prioridades claras, decisões e acompanhamento. A decisão continua
-              sendo sua.
+              Sono, energia, hormônios, rotina: cada sinal conta uma parte da história. Na Nuhria, a consulta começa
+              pela escuta e lê esses sinais juntos, para entender o que está por trás deles e definir com você o que vem
+              primeiro.
             </p>
             <a
-              href="#contato"
-              onClick={(e) => (e.preventDefault(), irPara('#contato'))}
-              className="botao botao-contorno mt-8 hidden md:inline-flex"
+              href="#primeira-consulta"
+              onClick={(e) => (e.preventDefault(), irPara('#primeira-consulta'))}
+              className="botao botao-contorno pointer-events-auto mt-8 hidden md:inline-flex"
             >
-              Comece por uma conversa <Seta />
+              Como é a primeira consulta <Seta />
             </a>
           </div>
         </div>
