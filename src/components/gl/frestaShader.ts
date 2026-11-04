@@ -55,6 +55,8 @@ void main() {
   vec2 sc = ra > ia ? vec2(1.0, ia / ra) : vec2(ra / ia, 1.0);
   float zoom = mix(1.30, 1.0, uE);
   vec2 iuv = (vUv - 0.5) * sc / zoom + 0.5;
+  // tela em pé: a pessoa da foto fica à direita do centro, então a foto desliza para mantê-la à vista
+  iuv.x += min(0.15, max(0.5 - sc.x / (2.0 * zoom), 0.0)) * step(ra, 1.0);
   float n = noise(iuv * vec2(2.5, 5.0) + vec2(uTime * 0.035, uTime * 0.018));
   iuv.x += (n - 0.5) * 0.006;                 // ar quente se mexendo na cortina
   iuv += (uMouse - 0.5) * vec2(0.014, 0.009) * uE;

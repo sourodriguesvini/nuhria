@@ -10,7 +10,14 @@ import { irPara } from '../SmoothScroll';
 
 const INICIO = 0.06; // trecho de entrada antes da primeira área
 const N = AREAS.length;
-const ALT = ['Pessoa de olhos fechados com a luz pousando na têmpora', 'Jarra e copos de água sobre a mesa, à luz da janela', 'Mão pousada sobre o joelho, na luz do fim da tarde', 'Mãos em repouso, à luz da janela', 'Detalhe do colo e do pescoço, com luz suave', 'Casal caminhando na orla, de frente para o mar'];
+const ALT = [
+  'Mulher fazendo um agachamento leve num estúdio claro, com janelas abertas para o mar',
+  'Café da manhã com frutas, pão e água com limão, numa mesa junto à janela com vista para a baía',
+  'Mulher sobre a balança de bioimpedância, acompanhada pela enfermeira, numa sala clara',
+  'Mulher reclinada numa poltrona, de olhos fechados, enquanto a enfermeira faz um curativo no braço',
+  'Rosto de mulher ao sol da manhã, de olhos fechados, com a pele iluminada',
+  'Mulher caminhando pela orla de Charitas pela manhã, com garrafa de água na mão',
+];
 
 /** Progresso da seção -> posição na lista, com pausa em cada área. */
 function posicao(p: number) {
@@ -116,8 +123,8 @@ export default function Mostrador() {
   return (
     <section id="areas" data-secao="Áreas de atuação" ref={secao} className="relative h-[640vh]">
       <div className="sticky top-0 h-[100svh] overflow-hidden bg-tinta">
-        {/* fotos */}
-        <div className="absolute inset-0">
+        {/* fotos: no desktop a foto termina sob o painel, para a pessoa ficar na parte livre da tela */}
+        <div className="absolute inset-0 md:right-[min(34vw,500px)]">
           {AREAS.map((a, n) => (
             <img
               key={a.slug}

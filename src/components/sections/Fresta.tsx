@@ -11,7 +11,7 @@ import { waLink } from '@/lib/brand';
 import { Seta } from '../Icones';
 import { irPara } from '../SmoothScroll';
 
-const FOTO = '/img/abertura-vidro-poente.webp';
+const FOTO = '/img/abertura-orla-manha.webp';
 
 /**
  * Momento 1 · Fresta.

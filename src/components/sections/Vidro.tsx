@@ -176,6 +176,12 @@ export default function Vidro() {
         <div ref={moldura} className="absolute inset-0" style={{ clipPath: 'inset(14% 10% 14% 10% round 28px)' }}>
           <canvas ref={canvas} className="absolute inset-0 h-full w-full" aria-hidden />
           <img src={FOTO} alt="" className="vidro-alt absolute inset-0 hidden h-full w-full object-cover" />
+          {/* leitura do texto sobre a vista clara do dia */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{ background: 'linear-gradient(100deg, rgba(28,21,17,0.58) 0%, rgba(28,21,17,0.32) 38%, rgba(28,21,17,0) 66%), linear-gradient(to bottom, rgba(28,21,17,0.25), rgba(28,21,17,0) 22%)' }}
+          />
         </div>
 
         <div ref={texto} className="absolute inset-x-[var(--margem)] bottom-[calc(12px+290px)] text-sunlit md:bottom-auto md:top-[16vh] md:max-w-[520px]" style={{ opacity: 0 }}>
@@ -183,8 +189,8 @@ export default function Vidro() {
           <p className="abertura mt-6 text-[clamp(19px,1.9vw,26px)]">em Charitas, Niterói,</p>
           <h2 className="display mt-1 text-[clamp(44px,5.6vw,84px)]">De frente para o mar</h2>
           <p className="lead mt-6 hidden max-w-[460px] md:block">
-            A clínica fica na orla de Charitas, com vista para a baía. A luz do fim da tarde atravessa o vidro todos os
-            dias.
+            A clínica fica na orla de Charitas, com vista para a baía. A luz do dia atravessa o vidro, da manhã ao fim da
+            tarde.
           </p>
         </div>
 
