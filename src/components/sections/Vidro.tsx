@@ -1,5 +1,6 @@
 'use client';
 
+import { telaLarga } from '@/lib/tela';
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import gsap from 'gsap';
@@ -48,7 +49,7 @@ export default function Vidro() {
       return () => stTema.kill();
     }
     renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
-    const movel = window.matchMedia('(max-width: 767px)').matches;
+    let movel = !telaLarga();
     const dpr = Math.min(window.devicePixelRatio || 1, movel ? 1.5 : 1.75);
     renderer.setPixelRatio(dpr);
     const u = {
@@ -79,6 +80,7 @@ export default function Vidro() {
     let W = 1;
     let H = 1;
     const medir = () => {
+      movel = !telaLarga();
       const r = cv.getBoundingClientRect();
       W = r.width;
       H = r.height;
@@ -88,6 +90,14 @@ export default function Vidro() {
     medir();
     const ro = new ResizeObserver(medir);
     ro.observe(cv);
+    // celular: o título fica sempre logo acima do cartão do endereço, qualquer que seja a altura dele
+    const encaixa = () => {
+      const pe = !telaLarga();
+      texto.current!.style.bottom = pe ? `${cartao.current!.offsetHeight + 12 + 22}px` : '';
+    };
+    encaixa();
+    const roCartao = new ResizeObserver(encaixa);
+    roCartao.observe(cartao.current!);
 
     let alvo = 0;
     let p = 0;
@@ -134,11 +144,13 @@ export default function Vidro() {
       // o vidro nasce como uma fresta e cresce
       const nasce = easeOutCubic(smoothstep(0.32, 0.62, p));
       const HX = movel ? W * 0.3 : Math.min(W * 0.15, 260);
-      const HY = movel ? H * 0.13 : H * 0.3;
+      // celular deitado: o cartão do endereço vai para a direita embaixo, então o vidro sobe um pouco
+      const deitado = !movel && H < 560 && W > H;
+      const HY = movel ? H * 0.13 : H * (deitado ? 0.22 : 0.3);
       const hx = lerp(1, HX, nasce);
       const hy = lerp(HY * 0.55, HY, nasce);
-      const cx = (movel ? W * 0.5 : W * 0.7) + entrada.x * (movel ? W * 0.12 : W * 0.09);
-      const cy = (movel ? H * 0.25 : H * 0.48) + entrada.y * (movel ? H * 0.04 : H * 0.08);
+      const cx = (movel ? W * 0.5 : W * (deitado ? 0.66 : 0.7)) + entrada.x * (movel ? W * 0.12 : W * 0.09);
+      const cy = (movel ? H * 0.25 : H * (deitado ? 0.36 : 0.48)) + entrada.y * (movel ? H * 0.04 : H * 0.08);
       u.uPane.value.set(cx * dpr, (H - cy) * dpr, hx * dpr, hy * dpr);
       u.uRad.value = Math.min(movel ? 22 : 28, hx) * dpr;
       u.uBrilho.value = entrada.x * 0.9 + entrada.y * 0.3;
@@ -161,6 +173,7 @@ export default function Vidro() {
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('deviceorientation', onGiro);
       ro.disconnect();
+      roCartao.disconnect();
       io.disconnect();
       st.kill();
       stTema.kill();
@@ -184,11 +197,11 @@ export default function Vidro() {
           />
         </div>
 
-        <div ref={texto} className="absolute inset-x-[var(--margem)] bottom-[calc(12px+290px)] text-sunlit md:bottom-auto md:top-[16vh] md:max-w-[520px]" style={{ opacity: 0 }}>
+        <div ref={texto} className="absolute inset-x-[var(--margem)] bottom-[calc(12px+290px)] text-sunlit largo:bottom-auto largo:top-[16vh] largo:max-w-[min(520px,46vw)] baixo:top-[76px] baixo:max-w-[40vw]" style={{ opacity: 0 }}>
           <p className="rotulo">O lugar</p>
-          <p className="abertura mt-6 text-[clamp(19px,1.9vw,26px)]">em Charitas, Niterói,</p>
-          <h2 className="display mt-1 text-[clamp(44px,5.6vw,84px)]">De frente para o mar</h2>
-          <p className="lead mt-6 hidden max-w-[460px] md:block">
+          <p className="abertura mt-6 text-[clamp(19px,1.9vw,26px)] baixo:mt-3">em Charitas, Niterói,</p>
+          <h2 className="display mt-1 text-[clamp(44px,5.6vw,84px)] baixo:text-[36px]">De frente para o mar</h2>
+          <p className="lead mt-6 hidden max-w-[460px] largo:block baixo:hidden">
             A clínica fica na orla de Charitas, com vista para a baía. A luz do dia atravessa o vidro, da manhã ao fim da
             tarde.
           </p>
@@ -196,7 +209,7 @@ export default function Vidro() {
 
         <div
           ref={cartao}
-          className="vidro absolute inset-x-3 bottom-3 rounded-[20px] p-6 md:inset-x-auto md:bottom-[6vh] md:left-[var(--margem)] md:w-[420px] md:p-7"
+          className="vidro absolute inset-x-3 bottom-3 rounded-[20px] p-6 largo:inset-x-auto largo:bottom-[6vh] largo:left-[var(--margem)] largo:w-[420px] largo:p-7 baixo:bottom-3 baixo:left-auto baixo:right-[var(--margem)] baixo:w-[min(42vw,380px)] baixo:p-5"
           style={{ opacity: 0, background: 'rgba(255,249,241,0.72)' }}
         >
           <p className="rotulo text-taupe-texto">Endereço</p>

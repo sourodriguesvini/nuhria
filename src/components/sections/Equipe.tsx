@@ -70,8 +70,8 @@ export default function Equipe() {
 
   return (
     <section id="equipe" data-secao="Quem cuida" ref={secao} className="px-[var(--margem)] py-[clamp(96px,15vh,170px)]">
-      <div className="mx-auto grid max-w-[1480px] items-center gap-14 md:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] md:gap-[6vw]">
-        <figure ref={figura} className="relative aspect-[4/5] overflow-hidden rounded-[24px] md:rounded-[28px]">
+      <div className="mx-auto grid max-w-[1480px] items-center gap-14 largo:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] largo:gap-[6vw]">
+        <figure ref={figura} className="relative mx-auto aspect-[4/5] w-full max-w-[560px] overflow-hidden rounded-[24px] largo:max-w-none largo:rounded-[28px]">
           <img
             ref={foto}
             src="/img/equipe-dra.webp"
@@ -86,7 +86,7 @@ export default function Equipe() {
             className="pointer-events-none absolute inset-y-[-10%] left-0 w-[45%] rotate-[12deg]"
             style={{ background: 'linear-gradient(90deg, rgba(255,242,222,0), rgba(255,242,222,0.55), rgba(255,242,222,0))', filter: 'blur(18px)', mixBlendMode: 'soft-light' }}
           />
-          <figcaption className="vidro-escuro absolute inset-x-4 bottom-4 rounded-[20px] p-5 text-sunlit md:inset-x-6 md:bottom-6 md:p-6">
+          <figcaption className="vidro-escuro absolute inset-x-4 bottom-4 rounded-[20px] p-5 text-sunlit largo:inset-x-6 largo:bottom-6 largo:p-6">
             <p className="rotulo text-[11px]">Diretora clínica</p>
             <p className="display mt-2 text-[clamp(26px,2.6vw,38px)]">Dra. Suzana Lessa</p>
             <p className="mt-1.5 text-[13.5px] text-sunlit/85">Médica · CRM-RJ 52-91631-5</p>

@@ -117,18 +117,18 @@ export default function Dia() {
       <div className="sticky top-0 h-[100svh] overflow-hidden">
         <div
           ref={trilha}
-          className="absolute inset-y-0 left-0 flex items-center gap-[4vw] pl-[var(--margem)] pr-[18vw] will-change-transform md:gap-[2.6vw]"
+          className="absolute inset-y-0 left-0 flex items-center gap-[4vw] pl-[var(--margem)] pr-[18vw] will-change-transform largo:gap-[2.6vw]"
         >
           {/* abertura do momento */}
-          <div className="w-[min(84vw,520px)] shrink-0 md:mr-[4vw]">
+          <div className="w-[min(84vw,520px)] shrink-0 largo:mr-[4vw]">
             <p className="rotulo text-taupe-texto">Primeira consulta</p>
             <p className="abertura mt-6 text-[clamp(19px,1.9vw,26px)] text-grafite-72">da chegada</p>
-            <h2 className="display mt-1 text-[clamp(52px,7vw,104px)]">Ao retorno</h2>
-            <p className="lead mt-7 max-w-[440px] text-grafite">
+            <h2 className="display mt-1 text-[clamp(52px,7vw,104px)] baixo:text-[44px]">Ao retorno</h2>
+            <p className="lead mt-7 max-w-[440px] text-grafite baixo:mt-4 baixo:text-[15px]">
               Tudo acontece no mesmo dia, em etapas, com tempo para cada uma. Você sabe o que vai acontecer antes de
               chegar.
             </p>
-            <p className="rotulo mt-10 flex items-center gap-3 text-[10.5px] text-grafite-72">
+            <p className="rotulo mt-10 baixo:mt-5 flex items-center gap-3 text-[10.5px] text-grafite-72">
               Role para atravessar o dia <Seta className="h-4 w-4" />
             </p>
           </div>
@@ -139,7 +139,7 @@ export default function Dia() {
               ref={(el) => {
                 paineis.current[i] = el;
               }}
-              className="relative h-[64vh] w-[min(78vw,420px)] shrink-0 overflow-hidden rounded-[24px] bg-oat will-change-transform md:h-[72vh] md:w-[min(32vw,500px)] md:rounded-[28px]"
+              className="relative h-[64vh] w-[min(78vw,420px)] shrink-0 overflow-hidden rounded-[24px] bg-oat will-change-transform largo:h-[72vh] largo:w-[min(32vw,500px)] largo:rounded-[28px] baixo:h-[74vh] baixo:w-[min(56vw,480px)]"
             >
               <img
                 ref={(el) => {
@@ -151,13 +151,13 @@ export default function Dia() {
                 className="absolute inset-y-0 left-[-10%] h-full w-[120%] max-w-none object-cover will-change-transform"
               />
               <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(28,21,17,0) 45%, rgba(28,21,17,0.35))' }} />
-              <div className="vidro absolute inset-x-3 bottom-3 rounded-[18px] p-5 md:inset-x-4 md:bottom-4 md:p-6">
+              <div className="vidro absolute inset-x-3 bottom-3 rounded-[18px] p-5 largo:inset-x-4 largo:bottom-4 largo:p-6 baixo:inset-x-3 baixo:bottom-3 baixo:p-4">
                 <p className="rotulo text-[10.5px] text-taupe-texto">
                   {e.n} · {e.rotulo}
                 </p>
-                <h3 className="display mt-2.5 text-[clamp(22px,2.1vw,30px)] leading-[1.05]">{e.titulo}</h3>
-                <p className="mt-3 text-[14px] leading-[1.6] text-grafite-72">{e.texto}</p>
-                <p className="mt-4 flex items-center gap-2.5 text-[12.5px] text-grafite">
+                <h3 className="display mt-2.5 text-[clamp(22px,2.1vw,30px)] leading-[1.05] baixo:mt-1.5 baixo:text-[20px]">{e.titulo}</h3>
+                <p className="mt-3 text-[14px] leading-[1.6] text-grafite-72 baixo:mt-1.5 baixo:text-[13px] baixo:leading-[1.45]">{e.texto}</p>
+                <p className="mt-4 flex items-center gap-2.5 text-[12.5px] text-grafite baixo:mt-2">
                   <span className="h-1.5 w-1.5 rounded-full bg-taupe" />
                   {e.quem}
                 </p>
@@ -166,10 +166,10 @@ export default function Dia() {
           ))}
 
           {/* fim do dia */}
-          <div className="w-[min(80vw,440px)] shrink-0 md:ml-[3vw]">
+          <div className="w-[min(80vw,440px)] shrink-0 largo:ml-[3vw]">
             <p className="abertura text-[clamp(19px,1.9vw,26px)] text-grafite-72">no fim do dia,</p>
-            <h3 className="display mt-1 text-[clamp(40px,4.6vw,68px)]">o próximo encontro já marcado</h3>
-            <p className="corpo mt-6 max-w-[380px] text-grafite-72">
+            <h3 className="display mt-1 text-[clamp(40px,4.6vw,68px)] baixo:text-[32px]">o próximo encontro já marcado</h3>
+            <p className="corpo mt-6 max-w-[380px] text-grafite-72 baixo:mt-3">
               Para quem mora fora da cidade, a consulta pode ser por teleconsulta. A equipe combina o formato no primeiro
               contato.
             </p>
@@ -199,7 +199,7 @@ export default function Dia() {
         />
 
         {/* fio e ponto: as cinco etapas */}
-        <div className="absolute inset-x-[var(--margem)] bottom-[4.5vh] md:bottom-[5vh]">
+        <div className="absolute inset-x-[var(--margem)] bottom-[4.5vh] largo:bottom-[5vh]">
           <div className="relative h-px bg-grafite/15">
             <span ref={preenche} className="absolute inset-0 origin-left bg-taupe" style={{ transform: 'scaleX(0)' }} />
           </div>
@@ -214,7 +214,7 @@ export default function Dia() {
                         on ? 'border-taupe bg-taupe' : 'border-taupe/60 bg-[var(--day)]'
                       } ${ativa === i ? 'scale-125' : ''}`}
                     />
-                    <span className={`hidden text-[12px] transition-colors duration-500 md:block ${ativa === i ? 'text-grafite' : 'text-grafite-72'}`}>
+                    <span className={`hidden text-[12px] transition-colors duration-500 largo:block baixo:hidden ${ativa === i ? 'text-grafite' : 'text-grafite-72'}`}>
                       {e.rotulo}
                     </span>
                   </button>

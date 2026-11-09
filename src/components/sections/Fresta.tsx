@@ -220,7 +220,8 @@ export default function Fresta() {
 
       const b = bloco.current!;
       const topo0 = cy + R * AXIS_DOWN + (movel ? 18 : 22);
-      const topo1 = H - b.offsetHeight - H * (movel ? 0.06 : 0.085);
+      // nunca sob o cabeçalho (celular deitado tem pouca altura)
+      const topo1 = Math.max(H - b.offsetHeight - H * (movel ? 0.06 : 0.085), 64);
       const mov = smoothstep(0.3, 0.95, e);
       b.style.transform = `translate3d(0, ${lerp(topo0, topo1, mov)}px, 0)`;
       const fim = smoothstep(0.5, 0.7, p);
@@ -258,17 +259,17 @@ export default function Fresta() {
           </p>
           <h1
             ref={titulo}
-            className="display revela mt-1 text-[clamp(62px,11.2vw,176px)] text-sunlit"
+            className="display revela mt-1 text-[clamp(62px,11.2vw,176px)] text-sunlit baixo:text-[clamp(38px,12vh,80px)]"
             style={{ opacity: 0, textShadow: '0 0 60px rgba(255,236,205,0.35)' }}
           >
             Decidir
           </h1>
-          <div ref={final} className="mt-6 flex flex-col items-center md:mt-8" style={{ opacity: 0 }}>
-            <p className="lead max-w-[560px] text-sunlit" style={{ textShadow: '0 1px 18px rgba(28,21,17,0.55)' }}>
+          <div ref={final} className="mt-6 flex flex-col items-center md:mt-8 baixo:mt-3" style={{ opacity: 0 }}>
+            <p className="lead max-w-[560px] text-sunlit baixo:max-w-[640px] baixo:text-[14px]" style={{ textShadow: '0 1px 18px rgba(28,21,17,0.55)' }}>
               A Nuhria ilumina o que está por trás dos seus sinais para que o caminho fique claro e a decisão seja sua.
               Cuidado médico com a Dra. Suzana Lessa e equipe, em Charitas, Niterói.
             </p>
-            <div className="mt-8 flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row">
+            <div className="mt-8 flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row baixo:mt-4">
               <a href={waLink()} target="_blank" rel="noopener" className="botao botao-claro w-full sm:w-auto">
                 Agendar uma conversa <Seta />
               </a>

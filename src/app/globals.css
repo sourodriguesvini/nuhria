@@ -1,5 +1,19 @@
 @import 'tailwindcss';
 
+/* "largo": telas onde cabem duas colunas lado a lado. Notebook e maior, e também celular ou tablet deitado.
+   Tablet em pé (768–1023 px na vertical) fica com o layout empilhado do celular, que lê melhor nessa proporção. */
+@custom-variant largo {
+  @media (min-width: 1024px) {
+    @slot;
+  }
+  @media (min-width: 640px) and (orientation: landscape) {
+    @slot;
+  }
+}
+/* "baixo": tela deitada e curta (celular na horizontal). Títulos menores e só o essencial de texto.
+   Vem depois de "largo" para prevalecer sobre ele. */
+@custom-variant baixo (@media (orientation: landscape) and (max-height: 560px));
+
 @theme {
   --color-sunlit: #fff9f1;
   --color-ivory: #f8efe1;

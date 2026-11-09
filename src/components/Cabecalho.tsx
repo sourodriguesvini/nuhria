@@ -81,7 +81,7 @@ export default function Cabecalho() {
           className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[110px] transition-opacity duration-700 md:h-[130px]"
           style={{ background: 'linear-gradient(to bottom, var(--day) 48%, transparent)', opacity: escuro ? 0 : 1 }}
         />
-        <div className="flex w-[40%] items-center">
+        <div className="flex min-w-0 flex-1 items-center">
           <button
             ref={botaoMenu}
             onClick={() => setAberto(true)}
@@ -97,7 +97,7 @@ export default function Cabecalho() {
         <a
           href={href('#abertura')}
           onClick={vai('#abertura')}
-          className="flex flex-col items-center"
+          className="flex shrink-0 flex-col items-center px-3"
           aria-label="Nuhria, Grupo Dra. Suzana Lessa, início"
           style={escuro ? { filter: 'drop-shadow(0 1px 10px rgba(28,21,17,0.35))' } : undefined}
         >
@@ -105,7 +105,7 @@ export default function Cabecalho() {
           {/* o nome da Dra. dá força à marca enquanto a Nuhria se torna conhecida */}
           <AssinaturaDra className="mt-[7px] text-[8.5px] md:mt-2 md:text-[10px]" />
         </a>
-        <div className="flex w-[40%] items-center justify-end gap-2.5">
+        <div className="flex min-w-0 flex-1 items-center justify-end gap-2.5">
           <a href={waLink()} target="_blank" rel="noopener" className={`botao h-11 gap-2.5 px-4 md:px-5 ${pilula}`} aria-label="Conversar pelo WhatsApp">
             <WhatsApp />
             <span className="hidden md:inline">WhatsApp</span>

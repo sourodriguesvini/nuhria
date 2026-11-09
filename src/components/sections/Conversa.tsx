@@ -128,16 +128,16 @@ export default function Conversa() {
   const acesos = passo >= ENVIADO ? RING_DOTS.length : Math.round((RING_DOTS.length * passo) / (PERGUNTAS.length + 1));
 
   return (
-    <section id="contato" data-secao="Contato" ref={secao} className="px-2 pb-2 md:px-4 md:pb-4">
-      <div ref={foto} className="relative overflow-hidden rounded-[20px] md:rounded-[28px]">
+    <section id="contato" data-secao="Contato" ref={secao} className="px-2 pb-2 largo:px-4 largo:pb-4">
+      <div ref={foto} className="relative overflow-hidden rounded-[20px] largo:rounded-[28px]">
         <img src="/img/janela-mar.webp" alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(105deg, rgba(28,21,17,0.68), rgba(28,21,17,0.3))' }} />
 
-        <div className="relative grid min-h-[100svh] items-center gap-12 px-5 py-28 md:grid-cols-[1fr_minmax(0,560px)] md:gap-[6vw] md:px-[var(--margem)]">
+        <div className="relative grid min-h-[100svh] items-center gap-12 px-5 py-28 lg:grid-cols-[1fr_minmax(0,560px)] lg:gap-[6vw] lg:px-[var(--margem)] md:px-[var(--margem)]">
           <div className="text-sunlit">
             <p className="rotulo">Contato</p>
             <p className="abertura mt-6 text-[clamp(19px,2vw,28px)]">comece por uma</p>
-            <h2 className="display mt-1 text-[clamp(60px,8.4vw,128px)]">Conversa</h2>
+            <h2 className="display mt-1 text-[clamp(50px,8.4vw,128px)]">Conversa</h2>
             <p className="lead mt-6 max-w-[460px]">
               Leva menos de um minuto. Uma pessoa da nossa equipe responde pelo WhatsApp para entender o que você procura
               e combinar o melhor dia. Valores e condições são informados nessa conversa.
@@ -153,7 +153,7 @@ export default function Conversa() {
             <p className="mt-4 text-[13px] text-sunlit/70">Teleconsulta para quem mora fora da cidade.</p>
           </div>
 
-          <div className="vidro rounded-[24px] p-6 md:rounded-[28px] md:p-10" style={{ background: 'rgba(255,249,241,0.8)' }}>
+          <div className="vidro w-full max-w-[600px] rounded-[24px] p-6 largo:rounded-[28px] largo:p-10" style={{ background: 'rgba(255,249,241,0.8)' }}>
             <div className="flex items-center gap-4">
               <AnelProgresso acesos={acesos} completo={passo >= ENVIADO} className="h-[76px] w-[76px] shrink-0" />
               <div>

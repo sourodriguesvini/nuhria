@@ -53,13 +53,13 @@ export default function AcaoFixa() {
 
   return (
     <>
-      <a href="/#contato" onClick={vaiAoContato} className={`vidro fixed bottom-8 right-8 z-50 hidden items-center gap-3 rounded-full py-2 pl-2 pr-5 md:flex ${base}`}>
+      <a href="/#contato" onClick={vaiAoContato} className={`vidro fixed bottom-8 right-8 z-50 hidden items-center gap-3 rounded-full py-2 pl-2 pr-5 md:flex baixo:bottom-3 baixo:right-3 baixo:flex ${base}`}>
         <span className="grid h-10 w-10 place-items-center rounded-full bg-grafite text-sunlit">
           <WhatsApp />
         </span>
         <span className="text-[14px] font-semibold">Fale com a equipe</span>
       </a>
-      <div className={`vidro fixed inset-x-3 bottom-3 z-50 flex items-center gap-2 rounded-full p-2 md:hidden ${base}`} style={{ background: 'rgba(255,249,241,0.82)' }}>
+      <div className={`vidro fixed inset-x-3 bottom-3 z-50 flex items-center gap-2 rounded-full p-2 md:hidden baixo:hidden ${base}`} style={{ background: 'rgba(255,249,241,0.82)' }}>
         <a href="/#contato" onClick={vaiAoContato} className="botao botao-escuro h-12 flex-1">
           Agendar uma conversa <Seta />
         </a>

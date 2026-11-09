@@ -7,6 +7,7 @@ import { AXIS_DOWN, AXIS_UP, CENTER_SIZE, RING_DOTS, ringXY } from '@/lib/ring';
 import { clamp, easeInOutCubic, lerp, mulberry32, prefersReducedMotion, smoothstep } from '@/lib/math';
 import { Seta } from '../Icones';
 import { irPara } from '../SmoothScroll';
+import { telaLarga } from '@/lib/tela';
 
 // Sinais que aparecem soltos antes de virarem sistema.
 const SINAIS = ['sono', 'energia', 'hormônios', 'metabolismo', 'rotina', 'alimentação', 'movimento', 'história'];
@@ -43,7 +44,9 @@ export default function Sinais() {
 
     let W = 1;
     let H = 1;
+    let movel = !telaLarga();
     const medir = () => {
+      movel = !telaLarga();
       const r = cv.getBoundingClientRect();
       W = r.width;
       H = r.height;
@@ -73,10 +76,9 @@ export default function Sinais() {
       if (!visivel) return;
       p += (alvoP - p) * 0.12;
       const t = agora / 1000;
-      const movel = W < 768;
       const cx = movel ? W / 2 : W * 0.63;
-      const cy = movel ? H * 0.7 : H * 0.53;
-      const R = movel ? Math.min(W * 0.3, H * 0.17) : Math.min(W * 0.19, H * 0.31);
+      const cy = movel ? H * (W >= 600 ? 0.74 : 0.7) : H * 0.53;
+      const R = movel ? Math.min(W * 0.3, H * (W >= 600 ? 0.15 : 0.17)) : Math.min(W * 0.19, H * 0.31);
       const area = movel
         ? { x0: W * 0.06, x1: W * 0.74, y0: H * 0.44, y1: H * 0.93 }
         : { x0: W * 0.42, x1: W * 0.96, y0: H * 0.12, y1: H * 0.9 };
@@ -185,12 +187,12 @@ export default function Sinais() {
           </span>
         ))}
 
-        <div className="pointer-events-none absolute inset-x-0 top-[13vh] px-[var(--margem)] md:top-1/2 md:w-[44vw] md:-translate-y-1/2">
+        <div className="pointer-events-none absolute inset-x-0 top-[13vh] px-[var(--margem)] largo:top-1/2 largo:w-[44vw] largo:-translate-y-1/2">
           <div ref={textoA} className="max-w-[520px]" style={{ opacity: 0 }}>
             <p className="rotulo text-taupe-texto">A Nuhria</p>
-            <p className="abertura mt-6 text-[clamp(19px,1.9vw,26px)] text-grafite-72">cada sintoma importa, lido como</p>
-            <h2 className="display mt-1 text-[clamp(40px,5vw,72px)]">Parte de um sistema</h2>
-            <p className="corpo mt-7 hidden max-w-[440px] text-grafite-72 md:block">
+            <p className="abertura mt-6 text-[clamp(19px,1.9vw,26px)] text-grafite-72 baixo:mt-3 baixo:text-[17px]">cada sintoma importa, lido como</p>
+            <h2 className="display mt-1 text-[clamp(40px,5vw,72px)] baixo:text-[34px]">Parte de um sistema</h2>
+            <p className="corpo mt-7 hidden max-w-[440px] text-grafite-72 md:block baixo:hidden">
               Sono, energia, hormônios, rotina: cada sintoma conta uma parte da história. Na Nuhria, a consulta começa
               pela escuta e considera os seus sintomas junto com o corpo inteiro, para entender o que está por trás deles
               e definir com você o que vem primeiro.
@@ -198,7 +200,7 @@ export default function Sinais() {
             <a
               href="#primeira-consulta"
               onClick={(e) => (e.preventDefault(), irPara('#primeira-consulta'))}
-              className="botao botao-contorno pointer-events-auto mt-8 hidden md:inline-flex"
+              className="botao botao-contorno pointer-events-auto mt-8 hidden md:inline-flex baixo:mt-5"
             >
               Como é a primeira consulta <Seta />
             </a>

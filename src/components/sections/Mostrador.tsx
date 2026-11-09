@@ -124,7 +124,7 @@ export default function Mostrador() {
     <section id="areas" data-secao="Áreas de atuação" ref={secao} className="relative h-[640vh]">
       <div className="sticky top-0 h-[100svh] overflow-hidden bg-tinta">
         {/* fotos: no desktop a foto termina sob o painel, para a pessoa ficar na parte livre da tela */}
-        <div className="absolute inset-0 md:right-[min(34vw,500px)]">
+        <div className="absolute inset-0 largo:right-[min(34vw,500px)]">
           {AREAS.map((a, n) => (
             <img
               key={a.slug}
@@ -148,22 +148,22 @@ export default function Mostrador() {
 
         {/* painel de vidro */}
         <div
-          className="vidro-escuro absolute inset-x-2 bottom-2 flex h-[54%] flex-col rounded-[20px] px-6 pb-6 pt-6 text-sunlit md:inset-x-auto md:bottom-0 md:right-0 md:top-0 md:h-auto md:w-[min(44vw,640px)] md:rounded-none md:border-y-0 md:border-r-0 md:px-[clamp(40px,4.5vw,80px)] md:pb-[6vh] md:pt-[13vh]"
+          className="vidro-escuro absolute inset-x-2 bottom-2 flex h-[max(54%,420px)] max-h-[calc(100%-110px)] flex-col rounded-[20px] px-6 pb-6 pt-6 text-sunlit largo:inset-x-auto largo:bottom-0 largo:right-0 largo:top-0 largo:h-auto largo:w-[min(44vw,640px)] largo:rounded-none largo:border-y-0 largo:border-r-0 largo:px-[clamp(40px,4.5vw,80px)] largo:pb-[6vh] largo:pt-[13vh] baixo:pb-4 baixo:pt-[68px]"
           style={{ background: 'linear-gradient(180deg, rgba(28,21,17,0.38), rgba(28,21,17,0.55))' }}
         >
           <div>
             <p className="rotulo">Áreas de atuação</p>
-            <p className="abertura mt-4 text-[clamp(17px,1.6vw,22px)] text-sunlit/85 md:mt-5">seis caminhos,</p>
-            <h2 className="display mt-1 text-[clamp(30px,3.6vw,54px)]">uma mesma escuta</h2>
+            <p className="abertura mt-4 text-[clamp(17px,1.6vw,22px)] text-sunlit/85 largo:mt-5 baixo:hidden">seis caminhos,</p>
+            <h2 className="display mt-1 text-[clamp(26px,7.4vw,32px)] largo:text-[clamp(30px,3.6vw,54px)] baixo:text-[26px]">uma mesma escuta</h2>
           </div>
 
           {/* lista em roda */}
           <div
-            className="relative my-5 min-h-0 flex-1 md:my-8"
+            className="relative my-5 min-h-[132px] flex-1 largo:my-8 baixo:my-2 baixo:min-h-[96px]"
             style={{ maskImage: 'linear-gradient(to bottom, transparent, #000 22%, #000 78%, transparent)', WebkitMaskImage: 'linear-gradient(to bottom, transparent, #000 22%, #000 78%, transparent)' }}
           >
-            <div className="absolute inset-x-0 top-1/2 h-[52px] -translate-y-1/2 border-y border-sunlit/25 md:h-[58px]" aria-hidden />
-            <div className="absolute inset-x-0 top-1/2 h-[52px] -translate-y-1/2 md:h-[58px]">
+            <div className="absolute inset-x-0 top-1/2 h-[52px] -translate-y-1/2 border-y border-sunlit/25 largo:h-[58px]" aria-hidden />
+            <div className="absolute inset-x-0 top-1/2 h-[52px] -translate-y-1/2 largo:h-[58px]">
               {AREAS.map((a, n) => (
                 <button
                   key={a.slug}
@@ -187,11 +187,11 @@ export default function Mostrador() {
           </div>
 
           <div key={area.slug} className="varre">
-            <p className="max-w-[440px] text-[15px] leading-[1.65] text-sunlit/90 md:text-[16px]">{area.texto}</p>
+            <p className="max-w-[440px] text-[15px] leading-[1.65] text-sunlit/90 largo:text-[16px] baixo:text-[13px] baixo:leading-[1.5]">{area.texto}</p>
             <a
               href="#contato"
               onClick={(e) => (e.preventDefault(), irPara('#contato'))}
-              className="botao botao-claro mt-6 hidden md:inline-flex"
+              className="botao botao-claro mt-6 hidden largo:inline-flex baixo:hidden"
             >
               Conversar sobre este cuidado <Seta />
             </a>
