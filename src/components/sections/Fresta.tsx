@@ -80,6 +80,7 @@ export default function Fresta() {
       uBg: { value: new THREE.Vector3(1, 249 / 255, 241 / 255) },
       uDots: { value: pontos },
       uDotA: { value: alfas },
+      uCentro: { value: 0 },
     };
     const material = new THREE.ShaderMaterial({ uniforms: u, vertexShader: frestaVert, fragmentShader: frestaFrag });
     const cena = new THREE.Scene();
@@ -185,21 +186,23 @@ export default function Fresta() {
         const atraso = INICIO_ANEL + (dot.a / 360) * VOLTA;
         const ti = easeOutCubic(clamp((intro - atraso) / 0.45));
         // a luz passa por cada ponto no momento em que ele acende
-        const passa = reduzir ? 0 : 0.9 * Math.exp(-Math.pow((intro - atraso - 0.12) * 7, 2));
+        const passa = reduzir ? 0 : 0.35 * Math.exp(-Math.pow((intro - atraso - 0.12) * 7, 2));
         const alvo = ringXY(dot, cx, cy, R * escala);
         const r = alvo.r * (1 + e * 2.2) * lerp(0.55, 1, ti);
         pontos[i].set(alvo.x * dpr, (H - alvo.y) * dpr, Math.max(r, 0.8) * dpr);
         // quando o centro acende, o anel baixa um pouco para o centro ser o destaque
-        const base = lerp(0.95, 0.72, centroAceso);
+        const base = lerp(0.8, 0.6, centroAceso);
         alfas[i] = (ti * base + passa) * some * (0.9 + 0.1 * Math.sin(agora / 760 + fases[i]));
       });
       // ponto central: o toque final. Acende por último, com um pulso, e fica como o ponto mais forte.
       const pulso = reduzir ? 1 : 1 + 0.55 * Math.exp(-Math.pow((intro - ACENDE_CENTRO - 0.35) * 2.6, 2));
       const respira = reduzir ? 1 : 1 + 0.06 * Math.sin(agora / 900);
       pontos[52].set(cx * dpr, (H - cy) * dpr, CENTER_SIZE * R * pulso * respira * dpr);
-      alfas[52] = centroAceso * 1.7 * (1 - smoothstep(0.0, 0.14, e));
-      // os raios de luz ficam mais fortes quando o centro acende, como se saíssem dele
-      u.uGlow.value = eixo * (1 + 0.45 * centroAceso * (pulso - 0.4));
+      const saiCentro = 1 - smoothstep(0.0, 0.14, e);
+      alfas[52] = centroAceso * 1.2 * saiCentro;
+      // só o ponto central brilha forte, com os raios saindo dele; o eixo fica com uma luz suave
+      u.uCentro.value = centroAceso * pulso * saiCentro;
+      u.uGlow.value = eixo * lerp(0.45, 0.22, centroAceso);
 
       renderer.render(cena, cam);
 

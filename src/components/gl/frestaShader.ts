@@ -28,6 +28,7 @@ uniform float uRad;     // raio do canto
 uniform vec3 uBg;       // cor da página atrás da moldura
 uniform vec3 uDots[53]; // x, y (px) e raio (px)
 uniform float uDotA[53];
+uniform float uCentro;  // brilho do ponto central (só ele tem raios)
 
 float sdRoundBox(vec2 p, vec2 b, float r) {
   vec2 q = abs(p) - b + r;
@@ -73,7 +74,7 @@ void main() {
   float aa = 1.2 * uDpr;
   float dentro = 1.0 - smoothstep(-aa, aa, d);
   float fina = 1.0 - smoothstep(2.0 * uDpr, 180.0 * uDpr, uWin.z); // fresta fina = luz estourada
-  vec3 janela = mix(foto, luz * 1.18, fina * 0.92);
+  vec3 janela = mix(foto, luz * 0.92, fina * 0.85); // o eixo: uma linha de luz suave, sem estourar
 
   // ---- fora: tinta quente que vira a cor da página quando a moldura assenta
   vec3 fora = mix(tinta, uBg, uFrame);
@@ -88,7 +89,7 @@ void main() {
   float poeira = smoothstep(0.992, 1.0, noise(mp * 0.22 + vec2(uTime * 0.08, -uTime * 0.9))) * gl * (1.0 - uFrame);
   vec3 col = mix(fora + vaza + luz * poeira * 0.9, janela, dentro);
 
-  // ---- pontos de luz do símbolo
+  // ---- pontos de luz do símbolo: o anel com um halo discreto; só o ponto central brilha de verdade
   vec3 pts = vec3(0.0);
   for (int i = 0; i < 53; i++) {
     float a = uDotA[i];
@@ -96,10 +97,20 @@ void main() {
     vec3 dt = uDots[i];
     float dd = length(frag - dt.xy);
     float nucleo = 1.0 - smoothstep(dt.z - aa, dt.z + aa, dd);
-    float halo = exp(-dd / (dt.z * 1.7 + 2.0 * uDpr)) * 0.5;
+    float ehCentro = i == 52 ? 1.0 : 0.0;
+    float halo = exp(-dd / (dt.z * mix(1.2, 4.5, ehCentro) + 2.0 * uDpr)) * mix(0.14, 0.85, ehCentro);
     pts += luz * (nucleo + halo) * a;
   }
   col += pts;
+
+  // ---- brilho e raios do ponto central (o toque final)
+  if (uCentro > 0.002) {
+    vec2 dc = frag - uDots[52].xy;
+    float dcl = length(dc);
+    float angc = atan(dc.y, dc.x);
+    float rc = 0.5 + 0.5 * noise(vec2(angc * 9.0, uTime * 0.12)) * noise(vec2(angc * 23.0 + 3.1, uTime * 0.07));
+    col += luz * (exp(-dcl / (70.0 * uDpr)) * 0.5 + exp(-dcl / (300.0 * uDpr)) * 0.24 * rc) * uCentro;
+  }
 
   // ---- grão
   col += (hash(frag + fract(uTime * 0.37) * 311.0) - 0.5) * 0.045;
