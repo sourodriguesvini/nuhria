@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import Logotipo from './Logotipo';
+import Logotipo, { AssinaturaDra } from './Logotipo';
 import { Fechar, Menu, WhatsApp } from './Icones';
 import { irPara } from './SmoothScroll';
 import { ENDERECO, WHATSAPP_LEGIVEL, waLink } from '@/lib/brand';
@@ -73,7 +73,7 @@ export default function Cabecalho() {
           escuro ? 'text-sunlit' : 'text-grafite'
         }`}
         // "backwards": depois da entrada a animação não fica ativa (senão o cabeçalho isola o vidro dos botões)
-        style={naInicio ? { animation: 'entra 1.4s 2.6s var(--ease-luz) backwards' } : undefined}
+        style={naInicio ? { animation: 'entra 1.4s 3.6s var(--ease-luz) backwards' } : undefined}
       >
         {/* sobre fundo claro, o conteúdo some suavemente sob o cabeçalho em vez de passar por baixo do logotipo */}
         <div
@@ -94,11 +94,16 @@ export default function Cabecalho() {
             <span className="hidden md:inline">Menu</span>
           </button>
         </div>
-        <a href={href('#abertura')} onClick={vai('#abertura')} className="block" aria-label="Nuhria, início">
-          <Logotipo
-            className="h-[17px] w-auto transition-[filter] duration-700 md:h-[22px]"
-            style={escuro ? { filter: 'drop-shadow(0 1px 10px rgba(28,21,17,0.35))' } : undefined}
-          />
+        <a
+          href={href('#abertura')}
+          onClick={vai('#abertura')}
+          className="flex flex-col items-center"
+          aria-label="Nuhria, Grupo Dra. Suzana Lessa, início"
+          style={escuro ? { filter: 'drop-shadow(0 1px 10px rgba(28,21,17,0.35))' } : undefined}
+        >
+          <Logotipo className="h-[17px] w-auto md:h-[22px]" />
+          {/* o nome da Dra. dá força à marca enquanto a Nuhria se torna conhecida */}
+          <AssinaturaDra className="mt-[7px] text-[8.5px] md:mt-2 md:text-[10px]" />
         </a>
         <div className="flex w-[40%] items-center justify-end gap-2.5">
           <a href={waLink()} target="_blank" rel="noopener" className={`botao h-11 gap-2.5 px-4 md:px-5 ${pilula}`} aria-label="Conversar pelo WhatsApp">
@@ -129,7 +134,10 @@ export default function Cabecalho() {
             <button ref={botaoFechar} onClick={() => setAberto(false)} className="botao botao-contorno h-11 gap-2.5 px-4">
               <Fechar /> Fechar
             </button>
-            <Logotipo className="h-[20px] w-auto" />
+            <div className="flex flex-col items-end">
+              <Logotipo className="h-[20px] w-auto" />
+              <AssinaturaDra className="mt-2 text-[9px]" />
+            </div>
           </div>
           <ul className="my-8 space-y-1">
             {LINKS.map(([t, h], i) => (

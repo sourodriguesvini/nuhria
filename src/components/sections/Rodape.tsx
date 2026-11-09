@@ -1,4 +1,4 @@
-import Logotipo from '../Logotipo';
+import Logotipo, { AssinaturaDra } from '../Logotipo';
 import { ENDERECO, IDENTIFICACAO_MEDICA, INSTAGRAM, MAPS, WHATSAPP_LEGIVEL, waLink } from '@/lib/brand';
 
 export default function Rodape() {
@@ -6,7 +6,10 @@ export default function Rodape() {
     <footer className="bg-oat px-[var(--margem)] pb-10 pt-20 text-grafite md:pt-24">
       <div className="grid gap-12 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
         <div>
-          <Logotipo className="h-[30px] w-auto" />
+          <div className="inline-flex flex-col items-start">
+            <Logotipo className="h-[30px] w-auto" />
+            <AssinaturaDra className="mt-3 text-[10.5px]" />
+          </div>
           <p className="corpo mt-6 max-w-[300px] text-grafite-80">De frente para o mar de Charitas, em Niterói.</p>
         </div>
         <div>

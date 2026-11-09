@@ -13,11 +13,19 @@ import { irPara } from '../SmoothScroll';
 
 const FOTO = '/img/abertura-orla-manha.webp';
 
+// tempos da entrada, em segundos (pedido da Dra. Suzana em 04/11/2026: "como ponteiros de um relógio aparecendo")
+const INICIO_ANEL = 1.0; // o eixo acende antes, de 0 a 0,9 s
+const VOLTA = 1.8; // tempo para a luz dar a volta no anel
+const ACENDE_CENTRO = 3.25; // o centro acende por último e fica como destaque
+/** Quando a entrada termina (o cabeçalho e a dica de rolagem aparecem depois disso). */
+export const FIM_DA_ENTRADA = ACENDE_CENTRO + 0.6;
+
 /**
  * Momento 1 · Fresta.
- * Ao carregar: o eixo do símbolo surge como uma fresta de luz, os 52 pontos chegam no sentido
- * horário e formam o anel, e o ponto central acende. Ao rolar: a fresta se abre até virar a
- * janela da sala com o mar, o anel se desfaz em luz e o título "se revela" onde a luz passa.
+ * Ao carregar, como um relógio: primeiro o eixo do símbolo surge como uma fresta de luz (meio-dia e
+ * meia-noite); depois os 52 pontos acendem no próprio lugar, em sentido horário a partir do topo; por
+ * último o ponto central acende e fica como o ponto mais forte, com os raios saindo dele. Ao rolar:
+ * a fresta se abre até virar a janela com o mar, o anel se desfaz em luz e o título surge.
  */
 export default function Fresta() {
   const secao = useRef<HTMLElement>(null);
@@ -91,9 +99,9 @@ export default function Fresta() {
       pronto = true;
     });
 
-    // de onde cada ponto vem: espalhados longe, como poeira
+    // cintilação leve de cada ponto depois de aceso
     const rnd = mulberry32(52);
-    const origem = RING_DOTS.map(() => ({ ang: rnd() * Math.PI * 2, dist: 0.55 + rnd() * 0.85, fase: rnd() * Math.PI * 2 }));
+    const fases = RING_DOTS.map(() => rnd() * Math.PI * 2);
 
     let W = 1;
     let H = 1;
@@ -165,34 +173,33 @@ export default function Fresta() {
       u.uRad.value = raio * dpr;
       u.uE.value = e;
       u.uFrame.value = frame;
-      u.uGlow.value = eixo;
       u.uTime.value = agora / 1000;
       u.uMouse.value.set(mouse.x, mouse.y);
 
-      // pontos: chegam no sentido horário, depois se abrem em luz
+      // pontos: como um relógio. Primeiro o eixo (meio-dia e meia-noite), depois cada ponto do anel
+      // acende no próprio lugar, em sentido horário a partir do topo, e por último o centro.
       const escala = 1 + e * 2.6;
       const some = 1 - smoothstep(0.02, 0.42, e);
-      const longe = Math.max(W, H) * 0.75;
+      const centroAceso = smoothstep(ACENDE_CENTRO, ACENDE_CENTRO + 0.5, intro);
       RING_DOTS.forEach((dot, i) => {
-        const atraso = 0.35 + (dot.a / 360) * 1.45;
-        const ti = easeOutCubic(clamp((intro - atraso) / 1.05));
+        const atraso = INICIO_ANEL + (dot.a / 360) * VOLTA;
+        const ti = easeOutCubic(clamp((intro - atraso) / 0.45));
+        // a luz passa por cada ponto no momento em que ele acende
+        const passa = reduzir ? 0 : 0.9 * Math.exp(-Math.pow((intro - atraso - 0.12) * 7, 2));
         const alvo = ringXY(dot, cx, cy, R * escala);
-        const o = origem[i];
-        // com "reduzir movimento" os pontos só acendem no lugar, sem voar
-        const voo = reduzir ? 0 : longe;
-        const sx = cx + Math.cos(o.ang) * o.dist * voo;
-        const sy = cy + Math.sin(o.ang) * o.dist * voo;
-        const x = lerp(sx, alvo.x, ti);
-        const y = lerp(sy, alvo.y, ti);
-        const r = alvo.r * (1 + e * 2.2) * lerp(0.4, 1, ti);
-        pontos[i].set(x * dpr, (H - y) * dpr, Math.max(r, 0.8) * dpr);
-        alfas[i] = ti * some * (0.86 + 0.14 * Math.sin(agora / 760 + o.fase));
+        const r = alvo.r * (1 + e * 2.2) * lerp(0.55, 1, ti);
+        pontos[i].set(alvo.x * dpr, (H - alvo.y) * dpr, Math.max(r, 0.8) * dpr);
+        // quando o centro acende, o anel baixa um pouco para o centro ser o destaque
+        const base = lerp(0.95, 0.72, centroAceso);
+        alfas[i] = (ti * base + passa) * some * (0.9 + 0.1 * Math.sin(agora / 760 + fases[i]));
       });
-      // ponto central: acende por último, com um pulso
-      const c = smoothstep(2.0, 2.55, intro);
-      const pulso = 1 + 0.35 * Math.exp(-Math.pow((intro - 2.6) * 3, 2));
-      pontos[52].set(cx * dpr, (H - cy) * dpr, CENTER_SIZE * R * pulso * dpr);
-      alfas[52] = c * (1 - smoothstep(0.0, 0.14, e));
+      // ponto central: o toque final. Acende por último, com um pulso, e fica como o ponto mais forte.
+      const pulso = reduzir ? 1 : 1 + 0.55 * Math.exp(-Math.pow((intro - ACENDE_CENTRO - 0.35) * 2.6, 2));
+      const respira = reduzir ? 1 : 1 + 0.06 * Math.sin(agora / 900);
+      pontos[52].set(cx * dpr, (H - cy) * dpr, CENTER_SIZE * R * pulso * respira * dpr);
+      alfas[52] = centroAceso * 1.7 * (1 - smoothstep(0.0, 0.14, e));
+      // os raios de luz ficam mais fortes quando o centro acende, como se saíssem dele
+      u.uGlow.value = eixo * (1 + 0.45 * centroAceso * (pulso - 0.4));
 
       renderer.render(cena, cam);
 
@@ -217,7 +224,7 @@ export default function Fresta() {
       final.current!.style.opacity = String(fim);
       final.current!.style.transform = `translate3d(0, ${lerp(24, 0, fim)}px, 0)`;
       final.current!.style.pointerEvents = fim > 0.5 ? 'auto' : 'none';
-      dica.current!.style.opacity = String((1 - smoothstep(0.0, 0.05, p)) * smoothstep(2.8, 3.4, intro));
+      dica.current!.style.opacity = String((1 - smoothstep(0.0, 0.05, p)) * smoothstep(FIM_DA_ENTRADA, FIM_DA_ENTRADA + 0.6, intro));
     };
     raf = requestAnimationFrame(quadro);
 

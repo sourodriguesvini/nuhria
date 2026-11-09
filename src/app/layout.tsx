@@ -32,13 +32,13 @@ const DESCRICAO =
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: { default: 'Nuhria · Charitas, Niterói', template: '%s · Nuhria' },
+  title: { default: 'Nuhria · Grupo Dra. Suzana Lessa · Charitas, Niterói', template: '%s · Nuhria' },
   description: DESCRICAO,
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     locale: 'pt_BR',
-    siteName: 'Nuhria',
+    siteName: 'Nuhria · Grupo Dra. Suzana Lessa',
     title: 'Nuhria · perceber vem antes de decidir',
     description: DESCRICAO,
     images: [{ url: '/og.jpg', width: 1200, height: 630, alt: 'Nuhria: o símbolo de luz sobre a sala com vista para o mar' }],

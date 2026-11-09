@@ -13,7 +13,7 @@ const SINAIS = ['sono', 'energia', 'hormônios', 'metabolismo', 'rotina', 'alime
 const COM_ROTULO = [3, 10, 16, 23, 29, 36, 42, 49];
 
 /**
- * Momento 2 · A Nuhria: sistemas, não sintomas.
+ * Momento 2 · A Nuhria: cada sintoma importa, lido como parte de um sistema.
  * O método da clínica como interação: sinais soltos (sono, energia, hormônios…), cada um no seu canto,
  * se organizam no anel de 52 pontos e o eixo com o ponto central fecha o símbolo.
  */
@@ -105,7 +105,7 @@ export default function Sinais() {
         ctx.fill();
       });
 
-      // fios entre os sinais nomeados, enquanto viajam (sistema, não sintoma)
+      // fios entre os sinais nomeados, enquanto viajam (sintomas lidos como sistema)
       const fio = Math.sin(Math.PI * clamp(junta)) * 0.42;
       if (fio > 0.01) {
         ctx.beginPath();
@@ -188,12 +188,12 @@ export default function Sinais() {
         <div className="pointer-events-none absolute inset-x-0 top-[13vh] px-[var(--margem)] md:top-1/2 md:w-[44vw] md:-translate-y-1/2">
           <div ref={textoA} className="max-w-[520px]" style={{ opacity: 0 }}>
             <p className="rotulo text-taupe-texto">A Nuhria</p>
-            <p className="abertura mt-6 text-[clamp(19px,1.9vw,26px)] text-grafite-72">uma medicina que pensa em</p>
-            <h2 className="display mt-1 text-[clamp(40px,5vw,72px)]">Sistemas, não em sintomas</h2>
+            <p className="abertura mt-6 text-[clamp(19px,1.9vw,26px)] text-grafite-72">cada sintoma importa, lido como</p>
+            <h2 className="display mt-1 text-[clamp(40px,5vw,72px)]">Parte de um sistema</h2>
             <p className="corpo mt-7 hidden max-w-[440px] text-grafite-72 md:block">
-              Sono, energia, hormônios, rotina: cada sinal conta uma parte da história. Na Nuhria, a consulta começa
-              pela escuta e lê esses sinais juntos, para entender o que está por trás deles e definir com você o que vem
-              primeiro.
+              Sono, energia, hormônios, rotina: cada sintoma conta uma parte da história. Na Nuhria, a consulta começa
+              pela escuta e considera os seus sintomas junto com o corpo inteiro, para entender o que está por trás deles
+              e definir com você o que vem primeiro.
             </p>
             <a
               href="#primeira-consulta"
