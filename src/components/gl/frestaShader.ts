@@ -108,11 +108,11 @@ void main() {
     vec2 dc = frag - uDots[52].xy;
     float dcl = length(dc);
     float angc = atan(dc.y, dc.x);
-    // raios que se mexem devagar, como a luz refletida na água: ondulam ao longo do raio e cintilam
-    float ondula = sin(dcl / (24.0 * uDpr) - uTime * 1.4);
-    float a1 = angc + ondula * 0.035 + sin(uTime * 0.19) * 0.1;
-    float rc = 0.4 + 0.6 * noise(vec2(a1 * 9.0, uTime * 0.38)) * noise(vec2(a1 * 21.0 + 3.1, uTime * 0.27 - dcl / (220.0 * uDpr)));
-    rc *= 0.85 + 0.15 * ondula;
+    // os raios giram devagar em torno do ponto central
+    // (direção no círculo, para não haver emenda onde o ângulo dá a volta)
+    float a1 = angc + uTime * 0.06;
+    vec2 dir = vec2(cos(a1), sin(a1));
+    float rc = 0.5 + 0.5 * noise(dir * 9.0 + 40.0) * noise(dir * 23.0 + 90.0);
     col += luz * (exp(-dcl / (55.0 * uDpr)) * 0.26 + exp(-dcl / (240.0 * uDpr)) * 0.15 * rc) * uCentro;
   }
 
