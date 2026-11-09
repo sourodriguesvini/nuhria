@@ -148,7 +148,7 @@ export default function Mostrador() {
 
         {/* painel de vidro */}
         <div
-          className="vidro-escuro absolute inset-x-2 bottom-2 flex h-[max(54%,420px)] max-h-[calc(100%-110px)] flex-col rounded-[20px] px-6 pb-6 pt-6 text-sunlit largo:inset-x-auto largo:bottom-0 largo:right-0 largo:top-0 largo:h-auto largo:w-[min(44vw,640px)] largo:rounded-none largo:border-y-0 largo:border-r-0 largo:px-[clamp(40px,4.5vw,80px)] largo:pb-[6vh] largo:pt-[13vh] baixo:pb-4 baixo:pt-[68px]"
+          className="vidro-escuro absolute inset-x-2 bottom-2 flex h-[max(54%,420px)] max-h-[calc(100%-110px)] flex-col rounded-[20px] px-6 pb-6 pt-6 text-sunlit largo:inset-x-auto largo:bottom-0 largo:right-0 largo:top-0 largo:h-auto largo:max-h-none largo:w-[min(44vw,640px)] largo:rounded-none largo:border-y-0 largo:border-r-0 largo:px-[clamp(40px,4.5vw,80px)] largo:pb-[6vh] largo:pt-[13vh] baixo:pb-4 baixo:pt-[68px]"
           style={{ background: 'linear-gradient(180deg, rgba(28,21,17,0.38), rgba(28,21,17,0.55))' }}
         >
           <div>
