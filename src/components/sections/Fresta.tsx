@@ -195,11 +195,11 @@ export default function Fresta() {
         alfas[i] = (ti * base + passa) * some * (0.9 + 0.1 * Math.sin(agora / 760 + fases[i]));
       });
       // ponto central: o toque final. Acende por último, com um pulso, e fica como o ponto mais forte.
-      const pulso = reduzir ? 1 : 1 + 0.55 * Math.exp(-Math.pow((intro - ACENDE_CENTRO - 0.35) * 2.6, 2));
+      const pulso = reduzir ? 1 : 1 + 0.3 * Math.exp(-Math.pow((intro - ACENDE_CENTRO - 0.35) * 2.6, 2));
       const respira = reduzir ? 1 : 1 + 0.06 * Math.sin(agora / 900);
       pontos[52].set(cx * dpr, (H - cy) * dpr, CENTER_SIZE * R * pulso * respira * dpr);
       const saiCentro = 1 - smoothstep(0.0, 0.14, e);
-      alfas[52] = centroAceso * 1.2 * saiCentro;
+      alfas[52] = centroAceso * saiCentro;
       // só o ponto central brilha forte, com os raios saindo dele; o eixo fica com uma luz suave
       u.uCentro.value = centroAceso * pulso * saiCentro;
       u.uGlow.value = eixo * lerp(0.45, 0.22, centroAceso);

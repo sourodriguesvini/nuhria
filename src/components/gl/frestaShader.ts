@@ -98,7 +98,7 @@ void main() {
     float dd = length(frag - dt.xy);
     float nucleo = 1.0 - smoothstep(dt.z - aa, dt.z + aa, dd);
     float ehCentro = i == 52 ? 1.0 : 0.0;
-    float halo = exp(-dd / (dt.z * mix(1.2, 4.5, ehCentro) + 2.0 * uDpr)) * mix(0.14, 0.85, ehCentro);
+    float halo = exp(-dd / (dt.z * mix(1.2, 4.5, ehCentro) + 2.0 * uDpr)) * mix(0.14, 0.5, ehCentro);
     pts += luz * (nucleo + halo) * a;
   }
   col += pts;
@@ -108,8 +108,12 @@ void main() {
     vec2 dc = frag - uDots[52].xy;
     float dcl = length(dc);
     float angc = atan(dc.y, dc.x);
-    float rc = 0.5 + 0.5 * noise(vec2(angc * 9.0, uTime * 0.12)) * noise(vec2(angc * 23.0 + 3.1, uTime * 0.07));
-    col += luz * (exp(-dcl / (70.0 * uDpr)) * 0.5 + exp(-dcl / (300.0 * uDpr)) * 0.24 * rc) * uCentro;
+    // raios que se mexem devagar, como a luz refletida na água: ondulam ao longo do raio e cintilam
+    float ondula = sin(dcl / (24.0 * uDpr) - uTime * 1.4);
+    float a1 = angc + ondula * 0.035 + sin(uTime * 0.19) * 0.1;
+    float rc = 0.4 + 0.6 * noise(vec2(a1 * 9.0, uTime * 0.38)) * noise(vec2(a1 * 21.0 + 3.1, uTime * 0.27 - dcl / (220.0 * uDpr)));
+    rc *= 0.85 + 0.15 * ondula;
+    col += luz * (exp(-dcl / (55.0 * uDpr)) * 0.26 + exp(-dcl / (240.0 * uDpr)) * 0.15 * rc) * uCentro;
   }
 
   // ---- grão
