@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { CONSULTA_LARGO } from '@/lib/tela';
 
 // Equipe fixa descrita pela Dra. Suzana na reunião de 27/10/2026.
 // Nutricionista: Verônica Almeida Dias (currículo enviado em 10/11/2026). Registro (CRN): a confirmar.
@@ -65,7 +66,7 @@ export default function Equipe() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
-      const abre = { trigger: figura.current, start: 'top 92%', end: 'top 22%', scrub: true };
+      const abre = { trigger: secao.current, start: 'top 92%', end: 'top top', scrub: true };
       gsap.fromTo(figura.current, { clipPath: 'inset(7% 47% 7% 47% round 999px)' }, { clipPath: 'inset(0% 0% 0% 0% round 28px)', ease: 'none', scrollTrigger: abre });
       gsap.fromTo(foto.current, { scale: 1.22 }, { scale: 1, ease: 'none', scrollTrigger: abre });
       gsap.fromTo(
@@ -86,17 +87,25 @@ export default function Equipe() {
         );
         ScrollTrigger.create({ trigger: li, start: 'top 64%', onToggle: (s) => li.toggleAttribute('data-aceso', s.isActive), end: 'max' });
       });
-      // a foto do quadro passa para a nutricionista quando a lista chega à Nutrição
-      const nutricao = lista.current!.querySelector<HTMLElement>('li[data-retrato="1"]');
-      if (nutricao) ScrollTrigger.create({ trigger: nutricao, start: 'top 45%', end: 'max', onToggle: (s) => setRetrato(s.isActive ? 1 : 0) });
+      // telas largas: a seção trava na tela e a rolagem passa o quadro da Dra. para a nutricionista
+      // celular: o quadro fica acima da lista, então a troca acontece quando a lista chega à Nutrição
+      const mm = gsap.matchMedia();
+      mm.add(CONSULTA_LARGO, () => {
+        ScrollTrigger.create({ trigger: secao.current, start: 'top top', end: 'bottom bottom', onUpdate: (s) => setRetrato(s.progress >= 0.5 ? 1 : 0) });
+      });
+      mm.add("(max-width: 1023.98px) and (orientation: portrait), (max-width: 639.98px)", () => {
+        const nutricao = lista.current!.querySelector<HTMLElement>('li[data-retrato="1"]');
+        if (nutricao) ScrollTrigger.create({ trigger: nutricao, start: 'top 45%', end: 'max', onToggle: (s) => setRetrato(s.isActive ? 1 : 0) });
+      });
     }, secao);
     return () => ctx.revert();
   }, []);
 
   return (
-    <section id="equipe" data-secao="Quem cuida" ref={secao} className="px-[var(--margem)] py-[clamp(96px,15vh,170px)]">
-      <div className="mx-auto grid max-w-[1480px] items-center gap-14 largo:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] largo:gap-[6vw]">
-        <figure ref={figura} className="relative mx-auto aspect-[4/5] w-full max-w-[560px] overflow-hidden rounded-[24px] largo:max-w-none largo:rounded-[28px]">
+    <section id="equipe" data-secao="Quem cuida" ref={secao} className="px-[var(--margem)] largo:h-[230svh]">
+      <div className="py-[clamp(96px,15vh,170px)] largo:sticky largo:top-0 largo:flex largo:h-[100svh] largo:items-center largo:pb-0 largo:pt-[64px]">
+      <div className="mx-auto grid w-full max-w-[1480px] items-center gap-14 largo:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] largo:gap-[6vw]">
+        <figure ref={figura} className="relative mx-auto aspect-[4/5] w-full max-w-[560px] overflow-hidden rounded-[24px] largo:max-h-[calc(100svh-120px)] largo:max-w-none largo:rounded-[28px]">
           <div ref={foto} className="absolute inset-0 will-change-transform">
             {RETRATOS.map((r, i) => (
               <img
@@ -129,21 +138,21 @@ export default function Equipe() {
         <div>
           <p className="abertura text-[clamp(16px,1.5vw,21px)] text-grafite-72">a escuta</p>
           <h2 className="display mt-1 text-[clamp(34px,3.9vw,58px)]">vem primeiro</h2>
-          <p className="mt-5 max-w-[440px] text-[clamp(15px,1.1vw,16.5px)] leading-[1.65] text-grafite-80">
+          <p className="mt-5 max-w-[440px] largo:mt-4 text-[clamp(15px,1.1vw,16.5px)] leading-[1.65] text-grafite-80">
             Uma equipe pequena e fixa, que acompanha você do primeiro contato ao retorno.
           </p>
 
-          <ol ref={lista} className="relative mt-12 max-w-[540px]">
+          <ol ref={lista} className="relative mt-12 max-w-[540px] largo:mt-8">
             <span className="absolute bottom-3 left-[6px] top-3 w-px bg-grafite/12" aria-hidden>
               <span ref={preenche} className="absolute inset-0 origin-top bg-taupe" style={{ transform: 'scaleY(0)' }} />
             </span>
             {EQUIPE.map((m, i) => (
-              <li key={m.nome} data-retrato={i} className="group relative flex gap-6 pb-10 pl-10 last:pb-0">
+              <li key={m.nome} data-retrato={i} data-apagado={i !== retrato ? '' : undefined} className="group relative flex gap-6 pb-10 pl-10 last:pb-0 largo:pb-7">
                 <span
                   aria-hidden
                   className="absolute left-0 top-[7px] h-[13px] w-[13px] rounded-full border border-taupe/60 bg-[var(--day)] transition-colors duration-700 group-data-[aceso]:border-taupe group-data-[aceso]:bg-taupe"
                 />
-                <div className="flex-1">
+                <div className="flex-1 transition-opacity duration-700 largo:group-data-[apagado]:opacity-45">
                   <p className="text-[10.5px] font-semibold uppercase tracking-[0.14em] text-taupe-texto">{m.papel}</p>
                   <h3 className="display mt-2 text-[clamp(18px,1.5vw,22px)]">{m.nome}</h3>
                   <p className="mt-2 text-[14px] leading-[1.65] text-grafite-72">{m.texto}</p>
@@ -161,6 +170,7 @@ export default function Equipe() {
             ))}
           </ol>
         </div>
+      </div>
       </div>
     </section>
   );
