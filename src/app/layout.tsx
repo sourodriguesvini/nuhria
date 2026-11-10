@@ -5,7 +5,6 @@ import './globals.css';
 import SmoothScroll from '@/components/SmoothScroll';
 import CorDoDia from '@/components/CorDoDia';
 import CursorLuz from '@/components/CursorLuz';
-import AnelNavegacao from '@/components/AnelNavegacao';
 import Cabecalho from '@/components/Cabecalho';
 import AcaoFixa from '@/components/AcaoFixa';
 import { SITE_URL } from '@/lib/brand';
@@ -58,7 +57,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CorDoDia />
         <Cabecalho />
         {children}
-        <AnelNavegacao />
         <AcaoFixa />
         <CursorLuz />
         <div className="grao" aria-hidden />
