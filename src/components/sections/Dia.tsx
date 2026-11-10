@@ -62,7 +62,7 @@ export default function Dia() {
       const x = -p * distancia;
       tr.style.transform = `translate3d(${x}px, 0, 0)`;
 
-      // foco: o painel no meio da tela fica inteiro; os outros recuam um pouco
+      // foco: todos os painéis do mesmo tamanho e alinhados; os que estão longe do centro só esmaecem
       let maisPerto = 0;
       let menor = Infinity;
       paineis.current.forEach((el, i) => {
@@ -70,7 +70,6 @@ export default function Dia() {
         const centro = el.offsetLeft + x + el.offsetWidth / 2;
         const dist = centro - W / 2;
         const foco = 1 - clamp(Math.abs(dist) / (W * 0.8));
-        el.style.transform = `scale(${lerp(0.93, 1, foco)})`;
         el.style.opacity = String(lerp(0.55, 1, foco));
         const f = fotos.current[i];
         if (f) f.style.transform = `translate3d(${-dist * 0.1}px, 0, 0) scale(1.06)`;
@@ -121,8 +120,7 @@ export default function Dia() {
         >
           {/* abertura do momento */}
           <div className="w-[min(84vw,520px)] shrink-0 largo:mr-[4vw]">
-            <p className="rotulo text-taupe-texto">Primeira consulta</p>
-            <p className="abertura mt-6 text-[clamp(19px,1.9vw,26px)] text-grafite-72">da chegada</p>
+            <p className="abertura text-[clamp(19px,1.9vw,26px)] text-grafite-72">da chegada</p>
             <h2 className="display mt-1 text-[clamp(52px,7vw,104px)] baixo:text-[44px]">Ao retorno</h2>
             <p className="lead mt-7 max-w-[440px] text-grafite baixo:mt-4 baixo:text-[15px]">
               Tudo acontece no mesmo dia, em etapas, com tempo para cada uma. Você sabe o que vai acontecer antes de
@@ -151,16 +149,12 @@ export default function Dia() {
                 className="absolute inset-y-0 left-[-10%] h-full w-[120%] max-w-none object-cover will-change-transform"
               />
               <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(28,21,17,0) 45%, rgba(28,21,17,0.35))' }} />
-              <div className="vidro absolute inset-x-3 bottom-3 rounded-[18px] p-5 largo:inset-x-4 largo:bottom-4 largo:p-6 baixo:inset-x-3 baixo:bottom-3 baixo:p-4">
+              <div className="vidro absolute inset-x-3 bottom-3 min-h-[11.5rem] rounded-[18px] p-5 largo:inset-x-4 largo:bottom-4 largo:min-h-[13rem] largo:p-6 baixo:min-h-0 baixo:inset-x-3 baixo:bottom-3 baixo:p-4">
                 <p className="rotulo text-[10.5px] text-taupe-texto">
                   {e.n} · {e.rotulo}
                 </p>
                 <h3 className="display mt-2.5 text-[clamp(22px,2.1vw,30px)] leading-[1.05] baixo:mt-1.5 baixo:text-[20px]">{e.titulo}</h3>
                 <p className="mt-3 text-[14px] leading-[1.6] text-grafite-72 baixo:mt-1.5 baixo:text-[13px] baixo:leading-[1.45]">{e.texto}</p>
-                <p className="mt-4 flex items-center gap-2.5 text-[12.5px] text-grafite baixo:mt-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-taupe" />
-                  {e.quem}
-                </p>
               </div>
             </article>
           ))}

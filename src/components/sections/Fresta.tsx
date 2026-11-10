@@ -254,7 +254,7 @@ export default function Fresta() {
         <img src={FOTO} alt="" className="fresta-alt absolute inset-2 hidden h-[calc(100%-16px)] w-[calc(100%-16px)] rounded-[20px] object-cover md:inset-4 md:h-[calc(100%-32px)] md:w-[calc(100%-32px)] md:rounded-[28px]" />
 
         <div ref={bloco} className="absolute inset-x-0 top-0 flex flex-col items-center px-5 text-center will-change-transform">
-          <p ref={abertura} className="abertura text-[clamp(19px,2.1vw,30px)] text-sunlit/90" style={{ opacity: 0 }}>
+          <p ref={abertura} className="abertura text-[clamp(16px,1.6vw,24px)] text-sunlit/90" style={{ opacity: 0 }}>
             perceber vem antes de
           </p>
           <h1
@@ -265,7 +265,7 @@ export default function Fresta() {
             Decidir
           </h1>
           <div ref={final} className="mt-6 flex flex-col items-center md:mt-8 baixo:mt-3" style={{ opacity: 0 }}>
-            <p className="lead max-w-[560px] text-sunlit baixo:max-w-[640px] baixo:text-[14px]" style={{ textShadow: '0 1px 18px rgba(28,21,17,0.55)' }}>
+            <p className="max-w-[520px] text-[clamp(15px,1.15vw,17px)] leading-[1.6] text-sunlit baixo:max-w-[640px] baixo:text-[14px]" style={{ textShadow: '0 1px 18px rgba(28,21,17,0.55)' }}>
               A Nuhria ilumina o que está por trás dos seus sinais para que o caminho fique claro e a decisão seja sua.
               Cuidado médico com a Dra. Suzana Lessa e equipe, em Charitas, Niterói.
             </p>

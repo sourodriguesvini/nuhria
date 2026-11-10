@@ -189,8 +189,7 @@ export default function Sinais() {
 
         <div className="pointer-events-none absolute inset-x-0 top-[13vh] px-[var(--margem)] largo:top-1/2 largo:w-[44vw] largo:-translate-y-1/2">
           <div ref={textoA} className="max-w-[520px]" style={{ opacity: 0 }}>
-            <p className="rotulo text-taupe-texto">A Nuhria</p>
-            <p className="abertura mt-6 text-[clamp(19px,1.9vw,26px)] text-grafite-72 baixo:mt-3 baixo:text-[17px]">cada sintoma importa, lido como</p>
+            <p className="abertura text-[clamp(19px,1.9vw,26px)] text-grafite-72 baixo:text-[17px]">cada sintoma importa, lido como</p>
             <h2 className="display mt-1 text-[clamp(40px,5vw,72px)] baixo:text-[34px]">Parte de um sistema</h2>
             <p className="corpo mt-7 hidden max-w-[440px] text-grafite-72 md:block baixo:hidden">
               Sono, energia, hormônios, rotina: cada sintoma conta uma parte da história. Na Nuhria, a consulta começa

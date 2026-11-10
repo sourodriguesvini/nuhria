@@ -4,7 +4,6 @@ import Mostrador from '@/components/sections/Mostrador';
 import Dia from '@/components/sections/Dia';
 import Equipe from '@/components/sections/Equipe';
 import Vidro from '@/components/sections/Vidro';
-import Perguntas from '@/components/sections/Perguntas';
 import Conversa from '@/components/sections/Conversa';
 import Rodape from '@/components/sections/Rodape';
 import { AREAS, SITE_URL } from '@/lib/brand';
@@ -39,7 +38,6 @@ export default function Inicio() {
         <Dia />
         <Equipe />
         <Vidro />
-        <Perguntas />
         <Conversa />
       </main>
       <Rodape />

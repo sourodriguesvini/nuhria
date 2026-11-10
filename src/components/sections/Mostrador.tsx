@@ -121,8 +121,8 @@ export default function Mostrador() {
   const area = AREAS[ativo];
 
   return (
-    <section id="areas" data-secao="Áreas de atuação" ref={secao} className="relative h-[640vh]">
-      <div className="sticky top-0 h-[100svh] overflow-hidden bg-tinta">
+    <section id="areas" data-secao="Áreas de atuação" ref={secao} className="relative h-[900vh]">
+      <div className="sticky top-0 h-[100svh] overflow-hidden" style={{ background: '#6f5a49' }}>
         {/* fotos: no desktop a foto termina sob o painel, para a pessoa ficar na parte livre da tela */}
         <div className="absolute inset-0 largo:right-[min(34vw,500px)]">
           {AREAS.map((a, n) => (
@@ -138,7 +138,7 @@ export default function Mostrador() {
               loading={n < 2 ? 'eager' : 'lazy'}
             />
           ))}
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(28,21,17,0.1) 30%, rgba(28,21,17,0.45))' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(28,21,17,0) 30%, rgba(28,21,17,0.22))' }} />
           {/* bordas de luz da fresta durante a troca */}
           <div ref={fresta} aria-hidden className="pointer-events-none absolute inset-0" style={{ opacity: 0 }}>
             <span className="absolute inset-y-0 left-[var(--l)] w-[2px] -translate-x-1/2 bg-[rgba(255,242,222,0.9)]" style={{ boxShadow: '0 0 40px 12px rgba(255,236,205,0.55)' }} />
@@ -149,11 +149,10 @@ export default function Mostrador() {
         {/* painel de vidro */}
         <div
           className="vidro-escuro absolute inset-x-2 bottom-2 flex h-[max(54%,420px)] max-h-[calc(100%-110px)] flex-col rounded-[20px] px-6 pb-6 pt-6 text-sunlit largo:inset-x-auto largo:bottom-0 largo:right-0 largo:top-0 largo:h-auto largo:max-h-none largo:w-[min(44vw,640px)] largo:rounded-none largo:border-y-0 largo:border-r-0 largo:px-[clamp(40px,4.5vw,80px)] largo:pb-[6vh] largo:pt-[13vh] baixo:pb-4 baixo:pt-[68px]"
-          style={{ background: 'linear-gradient(180deg, rgba(28,21,17,0.38), rgba(28,21,17,0.55))' }}
+          style={{ background: 'linear-gradient(180deg, rgba(92,72,58,0.42), rgba(92,72,58,0.58))' }}
         >
           <div>
-            <p className="rotulo">Áreas de atuação</p>
-            <p className="abertura mt-4 text-[clamp(17px,1.6vw,22px)] text-sunlit/85 largo:mt-5 baixo:hidden">seis caminhos,</p>
+            <p className="abertura text-[clamp(17px,1.6vw,22px)] text-sunlit/85 baixo:hidden">seis caminhos,</p>
             <h2 className="display mt-1 text-[clamp(26px,7.4vw,32px)] largo:text-[clamp(30px,3.6vw,54px)] baixo:text-[26px]">uma mesma escuta</h2>
           </div>
 

@@ -14,7 +14,6 @@ const LINKS = [
   ['Primeira consulta', '#primeira-consulta'],
   ['Quem cuida', '#equipe'],
   ['O lugar', '#lugar'],
-  ['Perguntas', '#perguntas'],
   ['Contato', '#contato'],
 ] as const;
 
@@ -52,7 +51,9 @@ export default function Cabecalho() {
   }, [aberto]);
 
   const escuro = tema === 'escuro';
-  const pilula = escuro ? 'vidro-escuro text-sunlit' : 'vidro text-grafite';
+  // ações do cabeçalho: só texto e ícone, sem fundo de botão (o mais leve possível)
+  const leve = 'flex h-11 items-center gap-2 text-[13px] font-medium tracking-[0.02em] opacity-90 transition-opacity duration-300 hover:opacity-100';
+  const sombra = escuro ? { textShadow: '0 1px 10px rgba(28,21,17,0.45)' } : undefined;
   const href = (ancora: string) => (naInicio ? ancora : `/${ancora}`);
   const vai = (ancora: string) => (e: React.MouseEvent) => {
     if (!naInicio) return; // navegação normal para /#secao
@@ -85,7 +86,8 @@ export default function Cabecalho() {
           <button
             ref={botaoMenu}
             onClick={() => setAberto(true)}
-            className={`botao h-11 gap-2.5 px-4 md:px-5 ${pilula}`}
+            className={leve}
+            style={sombra}
             aria-label="Abrir menu"
             aria-expanded={aberto}
             aria-controls="menu-principal"
@@ -105,12 +107,12 @@ export default function Cabecalho() {
           {/* o nome da Dra. dá força à marca enquanto a Nuhria se torna conhecida */}
           <AssinaturaDra className="mt-[7px] text-[8.5px] md:mt-2 md:text-[10px]" />
         </a>
-        <div className="flex min-w-0 flex-1 items-center justify-end gap-2.5">
-          <a href={waLink()} target="_blank" rel="noopener" className={`botao h-11 gap-2.5 px-4 md:px-5 ${pilula}`} aria-label="Conversar pelo WhatsApp">
+        <div className="flex min-w-0 flex-1 items-center justify-end gap-5 md:gap-7">
+          <a href={waLink()} target="_blank" rel="noopener" className={leve} style={sombra} aria-label="Conversar pelo WhatsApp">
             <WhatsApp />
             <span className="hidden md:inline">WhatsApp</span>
           </a>
-          <a href={href('#contato')} onClick={vai('#contato')} className={`botao hidden h-11 px-5 md:inline-flex ${escuro ? 'botao-claro' : 'botao-escuro'}`}>
+          <a href={href('#contato')} onClick={vai('#contato')} className={`${leve} hidden underline decoration-current/40 underline-offset-[6px] md:flex`} style={sombra}>
             Agendar
           </a>
         </div>

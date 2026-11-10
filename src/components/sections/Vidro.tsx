@@ -90,14 +90,22 @@ export default function Vidro() {
     medir();
     const ro = new ResizeObserver(medir);
     ro.observe(cv);
-    // celular: o título fica sempre logo acima do cartão do endereço, qualquer que seja a altura dele
+    // texto e cartão do endereço nunca se sobrepõem:
+    // celular: o título fica logo acima do cartão; notebook: o cartão vem logo abaixo do texto
     const encaixa = () => {
+      const t = texto.current!;
+      const c = cartao.current!;
       const pe = !telaLarga();
-      texto.current!.style.bottom = pe ? `${cartao.current!.offsetHeight + 12 + 22}px` : '';
+      const deitado = window.matchMedia('(orientation: landscape) and (max-height: 560px)').matches;
+      t.style.bottom = pe ? `${c.offsetHeight + 12 + 22}px` : '';
+      c.style.top = !pe && !deitado ? `${t.offsetTop + t.offsetHeight + 32}px` : '';
+      c.style.bottom = !pe && !deitado ? 'auto' : '';
     };
     encaixa();
     const roCartao = new ResizeObserver(encaixa);
     roCartao.observe(cartao.current!);
+    roCartao.observe(texto.current!);
+    roCartao.observe(cv);
 
     let alvo = 0;
     let p = 0;
@@ -198,8 +206,7 @@ export default function Vidro() {
         </div>
 
         <div ref={texto} className="absolute inset-x-[var(--margem)] bottom-[calc(12px+290px)] text-sunlit largo:bottom-auto largo:top-[16vh] largo:max-w-[min(520px,46vw)] baixo:top-[76px] baixo:max-w-[40vw]" style={{ opacity: 0 }}>
-          <p className="rotulo">O lugar</p>
-          <p className="abertura mt-6 text-[clamp(19px,1.9vw,26px)] baixo:mt-3">em Charitas, Niterói,</p>
+          <p className="abertura text-[clamp(19px,1.9vw,26px)]">em Charitas, Niterói,</p>
           <h2 className="display mt-1 text-[clamp(44px,5.6vw,84px)] baixo:text-[36px]">De frente para o mar</h2>
           <p className="lead mt-6 hidden max-w-[460px] largo:block baixo:hidden">
             A clínica fica na orla de Charitas, com vista para a baía. A luz do dia atravessa o vidro, da manhã ao fim da

@@ -1,27 +1,39 @@
-import Logotipo, { AssinaturaDra } from '../Logotipo';
+import Logotipo from '../Logotipo';
+import { Instagram, WhatsApp } from '../Icones';
 import { ENDERECO, IDENTIFICACAO_MEDICA, INSTAGRAM, MAPS, WHATSAPP_LEGIVEL, waLink } from '@/lib/brand';
+
+const INSTAGRAM_URL = `https://www.instagram.com/${INSTAGRAM.replace('@', '')}/`;
 
 export default function Rodape() {
   return (
     <footer className="bg-oat px-[var(--margem)] pb-10 pt-20 text-grafite md:pt-24">
       <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
         <div>
-          <div className="inline-flex flex-col items-start">
-            <Logotipo className="h-[30px] w-auto" />
-            <AssinaturaDra className="mt-3 text-[10.5px]" />
-          </div>
-          <p className="corpo mt-6 max-w-[300px] text-grafite-80">De frente para o mar de Charitas, em Niterói.</p>
+          <Logotipo className="h-[30px] w-auto" />
+          {/* texto abaixo do logo: aguardando o conteúdo que a equipe vai enviar */}
         </div>
         <div>
           <p className="rotulo text-taupe-texto">Contato</p>
-          <ul className="mt-5 space-y-2.5 text-[14px]">
-            <li>
-              <a href={waLink()} target="_blank" rel="noopener" className="hover:text-taupe-texto">
-                WhatsApp {WHATSAPP_LEGIVEL}
-              </a>
-            </li>
-            <li>Instagram {INSTAGRAM}</li>
-          </ul>
+          <div className="mt-5 flex items-center gap-3">
+            <a
+              href={waLink()}
+              target="_blank"
+              rel="noopener"
+              aria-label={`WhatsApp ${WHATSAPP_LEGIVEL}`}
+              className="grid h-11 w-11 place-items-center rounded-full border border-grafite/20 transition-colors hover:border-taupe hover:text-taupe-texto"
+            >
+              <WhatsApp className="h-5 w-5" />
+            </a>
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener"
+              aria-label={`Instagram ${INSTAGRAM}`}
+              className="grid h-11 w-11 place-items-center rounded-full border border-grafite/20 transition-colors hover:border-taupe hover:text-taupe-texto"
+            >
+              <Instagram className="h-5 w-5" />
+            </a>
+          </div>
         </div>
         <div>
           <p className="rotulo text-taupe-texto">Endereço</p>
@@ -37,10 +49,10 @@ export default function Rodape() {
           </ul>
         </div>
         <div>
-          <p className="rotulo text-taupe-texto">Atendimento</p>
+          <p className="rotulo text-taupe-texto">Horário de funcionamento</p>
+          {/* PENDENTE: dias e horários reais da clínica */}
           <ul className="mt-5 space-y-2.5 text-[14px]">
-            <li>Com hora marcada</li>
-            <li>Teleconsulta para quem mora fora da cidade</li>
+            <li className="text-grafite-72">[a confirmar com a clínica]</li>
           </ul>
         </div>
       </div>
@@ -50,7 +62,7 @@ export default function Rodape() {
           <a href="/privacidade/" className="underline decoration-grafite/30 underline-offset-4 hover:text-taupe-texto">
             Política de privacidade
           </a>{' '}
-          · © 2026 Nuhria
+          · © 2026 Nuhria · Desenvolvido por LACMA
         </p>
       </div>
     </footer>

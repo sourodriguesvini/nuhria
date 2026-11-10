@@ -88,16 +88,15 @@ export default function Equipe() {
           />
           <figcaption className="vidro-escuro absolute inset-x-4 bottom-4 rounded-[20px] p-5 text-sunlit largo:inset-x-6 largo:bottom-6 largo:p-6">
             <p className="rotulo text-[11px]">Diretora clínica</p>
-            <p className="display mt-2 text-[clamp(26px,2.6vw,38px)]">Dra. Suzana Lessa</p>
+            <p className="display mt-2 text-[clamp(22px,2vw,30px)]">Dra. Suzana Lessa</p>
             <p className="mt-1.5 text-[13.5px] text-sunlit/85">Médica · CRM-RJ 52-91631-5</p>
           </figcaption>
         </figure>
 
         <div>
-          <p className="rotulo text-taupe-texto">Quem cuida</p>
-          <p className="abertura mt-6 text-[clamp(19px,1.9vw,26px)] text-grafite-72">a escuta</p>
-          <h2 className="display mt-1 text-[clamp(44px,5.4vw,80px)]">vem primeiro</h2>
-          <p className="lead mt-6 max-w-[480px] text-grafite">
+          <p className="abertura text-[clamp(16px,1.5vw,21px)] text-grafite-72">a escuta</p>
+          <h2 className="display mt-1 text-[clamp(34px,3.9vw,58px)]">vem primeiro</h2>
+          <p className="mt-5 max-w-[440px] text-[clamp(15px,1.1vw,16.5px)] leading-[1.65] text-grafite-80">
             Uma equipe pequena e fixa, que acompanha você do primeiro contato ao retorno.
           </p>
 
@@ -112,9 +111,9 @@ export default function Equipe() {
                   className="absolute left-0 top-[7px] h-[13px] w-[13px] rounded-full border border-taupe/60 bg-[var(--day)] transition-colors duration-700 group-data-[aceso]:border-taupe group-data-[aceso]:bg-taupe"
                 />
                 <div className="flex-1">
-                  <p className="text-[11.5px] font-semibold uppercase tracking-[0.14em] text-taupe-texto">{m.papel}</p>
-                  <h3 className="display mt-2 text-[clamp(22px,2vw,28px)]">{m.nome}</h3>
-                  <p className="mt-2.5 text-[15px] leading-[1.65] text-grafite-72">{m.texto}</p>
+                  <p className="text-[10.5px] font-semibold uppercase tracking-[0.14em] text-taupe-texto">{m.papel}</p>
+                  <h3 className="display mt-2 text-[clamp(18px,1.5vw,22px)]">{m.nome}</h3>
+                  <p className="mt-2 text-[14px] leading-[1.65] text-grafite-72">{m.texto}</p>
                 </div>
                 {m.img && (
                   <img
