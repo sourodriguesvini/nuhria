@@ -5,7 +5,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 // Equipe fixa descrita pela Dra. Suzana na reunião de 27/10/2026.
-// Nome e registro (CRN) da nutricionista: a confirmar com a clínica.
+// Nutricionista: Verônica Almeida Dias (currículo enviado em 10/11/2026). Registro (CRN): a confirmar.
 const EQUIPE = [
   {
     nome: 'Consulta médica',
@@ -15,9 +15,10 @@ const EQUIPE = [
   },
   {
     nome: 'Nutrição',
-    papel: 'Nutricionista da equipe',
-    texto: 'Faz parte da equipe fixa e atende na própria clínica, muitas vezes no mesmo dia da consulta médica.',
-    img: '/img/equipe-nutricao.webp',
+    papel: 'Verônica Almeida Dias',
+    texto:
+      'Nutricionista e farmacêutica, pós-graduada em Nutrição Funcional e Neurociência Clínica. Cuida da saúde intestinal, metabólica e hormonal de forma individualizada e atende na própria clínica, muitas vezes no mesmo dia da consulta médica.',
+    img: '/img/equipe-nutricionista.webp',
   },
   {
     nome: 'Avaliação e procedimentos',
