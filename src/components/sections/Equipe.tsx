@@ -59,6 +59,7 @@ export default function Equipe() {
   const figura = useRef<HTMLElement>(null);
   const foto = useRef<HTMLDivElement>(null);
   const [retrato, setRetrato] = useState(0);
+  const [passo, setPasso] = useState(0);
   const faixa = useRef<HTMLDivElement>(null);
   const lista = useRef<HTMLOListElement>(null);
   const preenche = useRef<HTMLSpanElement>(null);
@@ -74,27 +75,55 @@ export default function Equipe() {
         { xPercent: -140 },
         { xPercent: 260, ease: 'none', scrollTrigger: { trigger: figura.current, start: 'top 55%', end: 'bottom 25%', scrub: true } },
       );
-      gsap.fromTo(
-        preenche.current,
-        { scaleY: 0 },
-        { scaleY: 1, ease: 'none', scrollTrigger: { trigger: lista.current, start: 'top 72%', end: 'bottom 62%', scrub: true } },
-      );
-      lista.current!.querySelectorAll<HTMLElement>('li').forEach((li) => {
-        gsap.fromTo(
-          li,
-          { opacity: 0, y: 26, filter: 'blur(8px)' },
-          { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.1, ease: 'power3.out', scrollTrigger: { trigger: li, start: 'top 82%', toggleActions: 'play none none reverse' } },
-        );
-        ScrollTrigger.create({ trigger: li, start: 'top 64%', onToggle: (s) => li.toggleAttribute('data-aceso', s.isActive), end: 'max' });
-      });
-      // telas largas: a seção trava na tela e a rolagem passa o quadro da Dra. para a nutricionista
-      // celular: o quadro fica acima da lista, então a troca acontece quando a lista chega à Nutrição
+      const itens = Array.from(lista.current!.querySelectorAll<HTMLElement>('li'));
       const mm = gsap.matchMedia();
+
+      // telas largas: a seção trava na tela e a rolagem conta a equipe em sequência.
+      // chega com a foto da Dra.; depois vem o texto dela; depois a foto e o texto da nutricionista; por fim a enfermagem.
       mm.add(CONSULTA_LARGO, () => {
-        ScrollTrigger.create({ trigger: secao.current, start: 'top top', end: 'bottom bottom', onUpdate: (s) => setRetrato(s.progress >= 0.5 ? 1 : 0) });
+        const ENTRA = [0.1, 0.45, 0.75];
+        const tl = gsap.timeline({
+          defaults: { ease: 'power2.out' },
+          scrollTrigger: {
+            trigger: secao.current,
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.6,
+            onUpdate: (s) => {
+              const passo = ENTRA.filter((e) => s.progress >= e).length;
+              setPasso(passo);
+              setRetrato(passo >= 2 ? 1 : 0);
+              itens.forEach((li, i) => li.toggleAttribute('data-aceso', i < passo));
+            },
+          },
+        });
+        tl.set({}, {}, 1);
+        tl.fromTo(preenche.current, { scaleY: 0 }, { scaleY: 1, ease: 'none', duration: 0.8 }, 0.1);
+        itens.forEach((li, i) => {
+          tl.fromTo(li, { opacity: 0, y: 26, filter: 'blur(8px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.14 }, ENTRA[i]);
+        });
+        return () => {
+          setPasso(0);
+          setRetrato(0);
+        };
       });
-      mm.add("(max-width: 1023.98px) and (orientation: portrait), (max-width: 639.98px)", () => {
-        const nutricao = lista.current!.querySelector<HTMLElement>('li[data-retrato="1"]');
+
+      // celular: o quadro fica acima da lista; os itens entram um a um e a foto troca quando a lista chega à Nutrição
+      mm.add('(max-width: 1023.98px) and (orientation: portrait), (max-width: 639.98px)', () => {
+        gsap.fromTo(
+          preenche.current,
+          { scaleY: 0 },
+          { scaleY: 1, ease: 'none', scrollTrigger: { trigger: lista.current, start: 'top 72%', end: 'bottom 62%', scrub: true } },
+        );
+        itens.forEach((li) => {
+          gsap.fromTo(
+            li,
+            { opacity: 0, y: 26, filter: 'blur(8px)' },
+            { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.1, ease: 'power3.out', scrollTrigger: { trigger: li, start: 'top 82%', toggleActions: 'play none none reverse' } },
+          );
+          ScrollTrigger.create({ trigger: li, start: 'top 64%', onToggle: (s) => li.toggleAttribute('data-aceso', s.isActive), end: 'max' });
+        });
+        const nutricao = itens[1];
         if (nutricao) ScrollTrigger.create({ trigger: nutricao, start: 'top 45%', end: 'max', onToggle: (s) => setRetrato(s.isActive ? 1 : 0) });
       });
     }, secao);
@@ -102,7 +131,7 @@ export default function Equipe() {
   }, []);
 
   return (
-    <section id="equipe" data-secao="Quem cuida" ref={secao} className="px-[var(--margem)] largo:h-[230svh]">
+    <section id="equipe" data-secao="Quem cuida" ref={secao} className="px-[var(--margem)] largo:h-[340svh]">
       <div className="py-[clamp(96px,15vh,170px)] largo:sticky largo:top-0 largo:flex largo:h-[100svh] largo:items-center largo:pb-0 largo:pt-[64px]">
       <div className="mx-auto grid w-full max-w-[1480px] items-center gap-14 largo:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] largo:gap-[6vw]">
         <figure ref={figura} className="relative mx-auto aspect-[4/5] w-full max-w-[560px] overflow-hidden rounded-[24px] largo:max-h-[calc(100svh-120px)] largo:max-w-none largo:rounded-[28px]">
@@ -147,7 +176,7 @@ export default function Equipe() {
               <span ref={preenche} className="absolute inset-0 origin-top bg-taupe" style={{ transform: 'scaleY(0)' }} />
             </span>
             {EQUIPE.map((m, i) => (
-              <li key={m.nome} data-retrato={i} data-apagado={i !== retrato ? '' : undefined} className="group relative flex gap-6 pb-10 pl-10 last:pb-0 largo:pb-7">
+              <li key={m.nome} data-retrato={i} data-apagado={i < passo - 1 ? '' : undefined} className="group relative flex gap-6 pb-10 pl-10 last:pb-0 largo:pb-7">
                 <span
                   aria-hidden
                   className="absolute left-0 top-[7px] h-[13px] w-[13px] rounded-full border border-taupe/60 bg-[var(--day)] transition-colors duration-700 group-data-[aceso]:border-taupe group-data-[aceso]:bg-taupe"
